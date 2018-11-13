@@ -3,7 +3,117 @@ function sendReqForSignup() {
     var fullName = $("#fullName").val();
     var password = $("#password").val();
     var passwordConfirm = $("#passwordConfirm").val();
-
+    
+//    var email = $("#email");
+//    var fullName = $("#fullName");
+//    var password = $("#password");
+//    var passwordConfirm = $("#passwordConfirm");
+//    
+//    var errorMessages = "<ul>";
+//    var error = false;
+//    
+//    //password checks
+//    if(fullName.val().length < 1){
+//        errorMessages += "<li>Missing full name.</li>";
+//        fullName.style.border = "2px solid red";
+//        error = true;
+//    }
+//    else{
+//        fullName.style.border = "1px solid #aaa";
+//    }
+//    
+//    var emailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$/;
+//    if(email.val().length < 1 || !emailReg.test(email.val())){
+//        errorMessages += "<li>Invalid or missing email address.</li>";
+//        email.style.border = "2px solid red";
+//        error = true;
+//    }
+//     else{
+//        email.style.border = "1px solid #aaa";
+//    }
+//
+//    if(password.val().length < 10 || password.val().length > 20){
+//        errorMessages += "<li>Password must be between 10 and 20 characters.</li>";
+//        password.style.border = "2px solid red";
+//        error = true;
+//        
+//    }
+//    else{
+//        password.style.border = "1px solid #aaa";
+//    }
+//    
+//    var hasUpperCase = false;
+//    var hasLowerCase = false;
+//    var hasDigit = false;
+//    
+//    
+//    for(var i = 0; i < password.val().length; ++i){
+//        
+//        var c = password.val().charAt(i);
+//        console.log(c)
+//        if(c === c.toUpperCase() && c !== c.toLowerCase()){
+//            hasUpperCase = true;
+//        }
+//        if(c === c.toLowerCase() && c !== c.toUpperCase()){
+//            hasLowerCase = true;
+//        }
+//        if(!isNaN(c)){
+//
+//            hasDigit = true;
+//            
+//        }
+//    }
+//    if(!hasLowerCase){    
+//        errorMessages += "<li>Password must contain at least one lowercase character.</li>";
+//        password.style.border = "2px solid red";
+//        error = true;
+//    }
+//    else{
+//        password.style.border = "1px solid #aaa";
+//    }
+//    if(!hasUpperCase){   
+//        errorMessages += "<li>Password must contain at least one uppercase character.</li>";
+//        password.style.border = "2px solid red";
+//        error = true;
+//    }
+//    else{
+//        password.style.border = "1px solid #aaa";
+//    }
+//    if(!hasDigit){
+//        errorMessages += "<li>Password must contain at least one digit.</li>";
+//        password.style.border = "2px solid red";
+//        error = true;
+//    }
+//    else{
+//        password.style.border = "1px solid #aaa";
+//    }
+//    
+//   
+//    if(password.val() !== passwordConfirm.val()){
+//        errorMessages += "<li>Password and confirmation password don't match.</li>";
+//        passwordConfirm.style.border = "2px solid red";
+//        error = true;
+//    }
+//    else{
+//        passwordConfirm.style.border = "1px solid #aaa";
+//    }
+//    
+//    errorMessages +="</ul>";
+//    var errors = $("#formErrors");
+//    if(error){    
+//        errors.innerHTML = errorMessages;
+//        errors.style.display = "block";
+//        errors.style.color = "red";
+//    
+//    }
+//    else{
+//       errors.style.display = "none"; 
+//    }
+//    
+//    
+//    bcrypt.hash(password, null, null, function(err, hash) {
+//       var hashed = hash;
+//    }
 
     //route: /users/create
     $.ajax(
@@ -13,14 +123,14 @@ function sendReqForSignup() {
             data: {
                 name: "name",
                 email: "email",
-                password: "password",
+                password: "hashed",
                 deviceId: "0"
             },
             success: function(data) {
                 console.log(data);
             },
-            error: function() { 
-                console.log("error")
+            error: function(err) { 
+                console.log(err)
             },
             dataType: "json",
 //            contentType: "application/json"
@@ -28,15 +138,6 @@ function sendReqForSignup() {
     );
 
 
-
-// FIXME: More thorough validation should be performed here. 
-//
-//    var xhr = new XMLHttpRequest();
-//    xhr.addEventListener("load", signUpResponse);
-//    xhr.responseType = "json";
-//    xhr.open("POST", '/users/register');
-//    xhr.setRequestHeader("Content-type", "application/json");
-//    xhr.send(JSON.stringify({email:email,fullName:fullName, password:password}));
 }
 
 function signUpResponse() {

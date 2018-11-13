@@ -22,7 +22,7 @@ var User = require("../models/user");
 ////});
 
 router.post("/create", function(req, res) {
-    //res.send("cool");
+   // res.send(req);
     // Create a student from the submitted form data
     var user = new User({
         name: req.body.name,
