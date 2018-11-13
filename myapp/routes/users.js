@@ -31,11 +31,11 @@ router.post("/create", function(req, res) {
         deviceId: req.body.deviceId,
     });
     
-    user.save(function(err, stu) {
+    user.save(function(err, use) {
         if (err) {
             res.status(400).send(err);
         } else {
-            res.send("user was saved.");
+            res.status(200).send("user was saved.");
         }
     });
     
