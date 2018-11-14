@@ -14,7 +14,7 @@ var UVEvent = require("../models/event");
 //            longitude: Number,
 //                recorded: { type: Date, default: Date.now }
 
-router.post('uvfit', function(req, res, next) {
+router.post('', function(req, res, next) {
     var event = new UVEvent({
         speed: req.body.speed,
         uv: req.body.uv,
@@ -32,6 +32,14 @@ router.post('uvfit', function(req, res, next) {
         }
     });
 
+});
+
+
+router.get('', function(req, res, next) {
+    res.status(200).send({
+        success: true
+    });
+    
 });
 
 module.exports = router;

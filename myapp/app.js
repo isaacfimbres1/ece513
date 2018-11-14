@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/devices', devicesRouter);
-app.use('/', eventsRouter);
+app.use('/uvfit', eventsRouter);
 
 
 // catch 404 and forward to error handler
