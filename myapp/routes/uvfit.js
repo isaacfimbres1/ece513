@@ -35,7 +35,7 @@ router.post('', function(req, res, next) {
 
 });
 
-router.get(':devid', function(req, res, next) {
+router.get('/:devid', function(req, res, next) {
     var deviceId = req.params.devid;
     var responseJson = { events: []};
 
