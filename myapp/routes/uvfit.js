@@ -15,19 +15,17 @@ var UVEvent = require("../models/event");
 //                recorded: { type: Date, default: Date.now }
 
 router.post('', function(req, res, next) {
-    console.log(req);
-    var event = new UVEvent({
+    console.log(req.body);
+    var uvevent = new UVEvent({
         speed: req.body.speed,
         uv: req.body.uv,
         latitude: req.body.latitude,
         longitude: req.body.longitude,
-        recorded: { type: Date, default: Date.now
-                  }
     });
 
-    event.save(function(err, e) {
+    uvevent.save(function(err, e) {
         if (err) {
-            res.status(404).send(err);
+            res.status(400).send(err);
         }   else {
             res.status(200).send(e);
         }
