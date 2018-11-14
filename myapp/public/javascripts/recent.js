@@ -16,11 +16,15 @@ function uvhitInfoSuccess(data, textSatus, jqXHR) {
    for (var uvevent of data.events) {
       $("#devices").before("<li class='collection-item'>Date: " +
         uvevent.recorded + ", UV: " + uvevent.uv + ", Latitude: " +
-        uvevent.latitude ", Longitude: " + uvevent.longitude + ", Speed: "+
-        uvevent.speed + "</li>")
+        uvevent.latitude + ", Longitude: " + uvevent.longitude + ", Speed: "+
+        uvevent.speed + "</li>");
    }
 }
 
 function uvhitInfoError(data, textSatus, jqXHR){
 
 }
+
+$(document).ready(()=>{
+    $("#refreshButton").click(sendReqForAccountInfo);
+});
