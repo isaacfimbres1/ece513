@@ -15,6 +15,7 @@ var UVEvent = require("../models/event");
 //                recorded: { type: Date, default: Date.now }
 
 router.post('', function(req, res, next) {
+    console.log(req);
     var event = new UVEvent({
         speed: req.body.speed,
         uv: req.body.uv,
@@ -26,7 +27,7 @@ router.post('', function(req, res, next) {
 
     event.save(function(err, e) {
         if (err) {
-            res.status(400).send(err);
+            res.status(404).send(err);
         }   else {
             res.status(200).send(e);
         }
