@@ -32,4 +32,4 @@ router.post('uvfit', function(req, res, next) {
         }
     });
 
-}
+});
