@@ -39,7 +39,7 @@ router.get('/:devid', function(req, res, next) {
     var deviceId = req.params.devid;
     var responseJson = { events: []};
 
-    if (deviceId == "all") {
+    if (deviceId === "all") {
       var query = {};
     }
     else {
