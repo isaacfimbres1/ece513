@@ -30,3 +30,7 @@ a {
 #addDeviceForm, #main, #error {
    display: none;
 }
+#main{
+    display: block;
+    color: black;
+}
