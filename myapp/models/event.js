@@ -1,6 +1,7 @@
 var db = require("../db");
 
 var uveventSchema = new db.Schema({
+    deviceId: Number,
     speed: Number,
     uv: Number,
     latitude: Number,

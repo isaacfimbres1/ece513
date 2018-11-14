@@ -17,10 +17,12 @@ var UVEvent = require("../models/event");
 router.post('', function(req, res, next) {
     console.log(req.body);
     var uvevent = new UVEvent({
+        deviceId: req.body.deviceId,
         speed: req.body.speed,
         uv: req.body.uv,
         latitude: req.body.latitude,
         longitude: req.body.longitude,
+        
     });
 
     uvevent.save(function(err, e) {
@@ -31,6 +33,41 @@ router.post('', function(req, res, next) {
         }
     });
 
+});
+
+router.get(':devid', function(req, res, next) {
+    var deviceId = req.params.devid;
+    var responseJson = { events: []};
+
+    if (deviceId == "all") {
+      var query = {};
+    }
+    else {
+      var query = {
+          "deviceId" : deviceId
+      };
+    }
+    
+    UVEvent.find(query, function(err, allEvents) {
+      if (err) {
+        var errorMsg = {"message" : err};
+        res.status(400).json(errorMsg);
+      }
+      else {
+         for(var doc of allEvents) {
+            responseJson.events.push({
+                "deviceId": doc.deviceId, 
+                speed: doc.speed,
+                uv: doc.uv,
+                latitude: doc.latitude,
+                longitude: doc.longitude,
+                recorded: doc.recorded
+            });
+         }
+      }
+      res.status(200).json(responseJson);
+    });
+    
 });
 
 
