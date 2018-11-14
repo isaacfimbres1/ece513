@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var Device = require("../models/device");
+var User = require("../models/user");
 var jwt = require("jwt-simple");
 
 /* Authenticate user */
@@ -46,6 +47,39 @@ router.get('/status/:devid', function(req, res, next) {
       res.status(200).json(responseJson);
     });
 });
+
+router.get('/:email', function(req, res, next) {
+      var userStatus = {};
+    
+      User.findOne({email: req.params.email}, function(err, user) {
+         if(err) {
+            return res.status(200).json({success: false, message: "User does not exist."});
+         }
+         else {
+            
+            // Find devices based on decoded token
+		      Device.find({ userEmail : req.params.email}, function(err, devices) {
+			      if (!err) {
+			         // Construct device list
+			         var deviceList = []; 
+			         for (device of devices) {
+				         deviceList.push({ 
+				               deviceId: device.deviceId,
+				               apikey: device.apikey,
+				         });
+			         }
+			         userStatus['devices'] = deviceList;
+			      }
+			      
+               return res.status(200).json(userStatus);            
+		      });
+         }
+      });
+
+    
+});
+
+
 
 router.post('/register', function(req, res, next) {
     var responseJson = {
