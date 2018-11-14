@@ -4,8 +4,8 @@ var router = express.Router();
 var jwt = require("jwt-simple");
 var fs = require('fs');
 var Device = require("../models/device");
-
 var User = require("../models/user");
+
 
 var secret = fs.readFileSync(__dirname + '/../jwtkey').toString();
 
