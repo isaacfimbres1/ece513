@@ -5,10 +5,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require("body-parser");
 
+//import routers
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var devicesRouter = require('./routes/devices');
 var eventsRouter = require('./routes/uvfit');
+var activityRouter = require('./routes/activities');
 
 var app = express();
 
@@ -23,10 +26,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//use routers
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/devices', devicesRouter);
 app.use('/uvfit', eventsRouter);
+app.use('/activities', activityRouter);
 
 
 // catch 404 and forward to error handler

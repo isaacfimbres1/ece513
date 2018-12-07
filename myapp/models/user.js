@@ -4,7 +4,8 @@ var User = db.model("User", {
     name: String,
     email: String,
     passwordHash: String,
-    deviceId: [Number]
+    deviceId: [Number],
+    confirmed: Boolean
 });
 
 module.exports = User;

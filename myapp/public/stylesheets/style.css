@@ -34,3 +34,8 @@ a {
     display: block;
     color: black;
 }
+/*changes start here*/
+
+#changePasswordForm, #emailForm, #emailInput, #confirmEmail, #cancelEmail, #nameInput, #confirmName, #cancelName{
+    display: none;
+}

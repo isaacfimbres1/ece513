@@ -12,9 +12,9 @@ var secret = fs.readFileSync(__dirname + '/../jwtkey').toString();
 function getNewApikey() {
     var newApikey = "";
     var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    
+
     for (var i = 0; i < 32; i++) {
-       newApikey += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+        newApikey += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
     }
 
     return newApikey;
@@ -26,57 +26,57 @@ router.get('/status/:devid', function(req, res, next) {
     var responseJson = { devices: [] };
 
     if (deviceId == "all") {
-      var query = {};
+        var query = {};
     }
     else {
-      var query = {
-          "deviceId" : deviceId
-      };
+        var query = {
+            "deviceId" : deviceId
+        };
     }
-    
+
     Device.find(query, function(err, allDevices) {
-      if (err) {
-        var errorMsg = {"message" : err};
-        res.status(400).json(errorMsg);
-      }
-      else {
-         for(var doc of allDevices) {
-            responseJson.devices.push({ "deviceId": doc.deviceId,  "lastContact" : doc.lastContact});
-         }
-      }
-      res.status(200).json(responseJson);
+        if (err) {
+            var errorMsg = {"message" : err};
+            res.status(400).json(errorMsg);
+        }
+        else {
+            for(var doc of allDevices) {
+                responseJson.devices.push({ "deviceId": doc.deviceId,  "lastContact" : doc.lastContact});
+            }
+        }
+        res.status(200).json(responseJson);
     });
 });
 
 router.get('/:email', function(req, res, next) {
-      var userStatus = {};
-    
-      User.findOne({email: req.params.email}, function(err, user) {
-         if(err) {
-            return res.status(200).json({success: false, message: "User does not exist."});
-         }
-         else {
-            
-            // Find devices based on decoded token
-		      Device.find({ userEmail : req.params.email}, function(err, devices) {
-			      if (!err) {
-			         // Construct device list
-			         var deviceList = []; 
-			         for (device of devices) {
-				         deviceList.push({ 
-				               deviceId: device.deviceId,
-				               apikey: device.apikey,
-				         });
-			         }
-			         userStatus['devices'] = deviceList;
-			      }
-			      
-               return res.status(200).json(userStatus);            
-		      });
-         }
-      });
+    var userStatus = {};
 
-    
+    User.findOne({email: req.params.email}, function(err, user) {
+        if(err) {
+            return res.status(400).json({success: false, message: "User does not exist."});
+        }
+        else {
+
+            // Find devices based on decoded token
+            Device.find({ userEmail : req.params.email}, function(err, devices) {
+                if (!err) {
+                    // Construct device list
+                    var deviceList = []; 
+                    for (device of devices) {
+                        deviceList.push({ 
+                            deviceId: device.deviceId,
+                            apikey: device.apikey,
+                        });
+                    }
+                    userStatus['devices'] = deviceList;
+                }
+
+                return res.status(200).json(userStatus);            
+            });
+        }
+    });
+
+
 });
 
 
@@ -88,7 +88,7 @@ router.post('/register', function(req, res, next) {
         apikey : "none"
     };
     var deviceExists = false;
-    
+
     // Ensure the request includes the deviceId parameter
     if( ! "devidId" in req.body) {
         responseJson.message = "Missing deviceId.";
@@ -96,7 +96,7 @@ router.post('/register', function(req, res, next) {
     }
 
     var email = "";
-    
+
     // If authToken provided, use email in authToken 
     if (req.headers["x-auth"]) {
         try {
@@ -116,7 +116,7 @@ router.post('/register', function(req, res, next) {
         }
         email = req.body.email;
     }
-    
+
     // See if device is already registered
     Device.findOne({ deviceId: req.body.deviceId }, function(err, device) {
         if (device !== null) {
@@ -125,9 +125,9 @@ router.post('/register', function(req, res, next) {
         }
         else {
             // Get a new apikey
-	         deviceApikey = getNewApikey();
-	         
-	         // Create a new device with specified id, user email, and randomly generated apikey.
+            deviceApikey = getNewApikey();
+
+            // Create a new device with specified id, user email, and randomly generated apikey.
             var newDevice = new Device({
                 deviceId: req.body.deviceId,
                 userEmail: email,
@@ -150,6 +150,17 @@ router.post('/register', function(req, res, next) {
                     return res.status(201).json(responseJson);
                 }
             });
+        }
+    });
+});
+
+router.delete('/id', function(req, res, next) {
+    Device.remove({ deviceId : req.body.deviceId}, function(err) {
+        if(err){
+            res.status(400).send(err);
+        }
+        else{
+            res.status(200).json({success: true});
         }
     });
 });

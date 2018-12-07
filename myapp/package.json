@@ -13,9 +13,11 @@
     "express": "~4.16.0",
     "fs": "0.0.1-security",
     "http-errors": "~1.6.2",
+    "jsonwebtoken": "^8.4.0",
     "jwt-simple": "^0.5.5",
     "mongoose": "^5.3.11",
     "morgan": "~1.9.0",
+    "nodemailer": "^4.7.0",
     "pug": "2.0.0-beta11"
   }
 }

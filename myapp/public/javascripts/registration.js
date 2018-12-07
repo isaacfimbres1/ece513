@@ -12,7 +12,7 @@ function sendReqForSignup() {
     var errorMessages = "<ul>";
     var error = false;
     
-    //password checks
+    //name check
     if(fullName.val().length < 1){
         errorMessages += "<li>Missing full name.</li>";
         fullName.css("border", "2px solid red");
@@ -22,6 +22,7 @@ function sendReqForSignup() {
         fullName.css("border", "1px solid #aaa");
     }
     
+    //email check
     var emailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$/;
     if(email.val().length < 1 || !emailReg.test(email.val())){
         errorMessages += "<li>Invalid or missing email address.</li>";
@@ -32,6 +33,7 @@ function sendReqForSignup() {
         email.css("border", "1px solid #aaa");
     }
 
+    //password check
     if(password.val().length < 10 || password.val().length > 20){
         errorMessages += "<li>Password must be between 10 and 20 characters.</li>";
         password.css("border", "2px solid red");
@@ -99,6 +101,7 @@ function sendReqForSignup() {
     
     errorMessages +="</ul>";
     var errors = $("#formErrors");
+    
     if(error){    
         errors.innerHTML = errorMessages;
         errors.css({
@@ -108,34 +111,43 @@ function sendReqForSignup() {
     
     }
     else{
-       errors.css("display", "none"); 
-    }
+        errors.css("display", "none"); 
     
-    //route: /users/create
-    $.ajax(
-        {
-            url: '/users/create',
-            type: 'POST',
-            data: {
-                name: fullName.val(),
-                email: email.val(),
-                password: password.val(),
-                deviceId: []
-            },
-            success: signUpSuccess,
-            error: function(err) { 
-                console.log(err)
-            },
-            dataType: "json",
-            //contentType: "application/json"
-        }
-    );
+        $.ajax(
+            {
+                url: '/users/create',
+                type: 'POST',
+                data: {
+                    name: fullName.val(),
+                    email: email.val(),
+                    password: password.val(),
+                    deviceId: [],
+                    confirmed: false
+                },
+                success: signUpSuccess,
+                error: signUpError,
+                dataType: "json",
+            }
+        );
+    }
 
 
 }
-function signUpSuccess(){
-    console.log("successful account creation");
-    window.location = "index.html";
+function signUpSuccess(data, textStatus, jqXHR){
+     var responseDiv = document.getElementById("ServerResponse");
+    var responseHTML = "<span class='green-text text-darken-2'>Success: An email verification has been sent</span>"
+    responseDiv.innerHTML = responseHTML;
+    responseDiv.style.display = "block";
+}
+function signUpError(data, textStatus, jqXHR){
+
+    // Use a span with dark red text for errors
+    var responseDiv = document.getElementById("ServerResponse");
+    var responseHTML = "<span class='red-text text-darken-2'>";
+    responseHTML += "Error: " + data.responseJSON.error;
+    responseHTML += "</span>"
+    responseDiv.innerHTML = responseHTML;
+    responseDiv.style.display = "block";
 }
 
 function signUpResponse() {

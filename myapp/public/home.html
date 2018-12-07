@@ -43,11 +43,37 @@
 				<li class="collection-header">
 					<h5>Account details</h5>
 				</li>
-				<li class="collection-item">Email: <span id="email"></span></li>
-				<li class="collection-item">Name: <span id="fullName"></span></li>
-				<li class="collection-item">Last Access: <span id="lastAccess"></span></li>
+                <li class="collection-item">Email: <span id="email"></span>
+                    <row>
+                    <input id="emailInput" class="col-sm" >
+                        <a href="#!" id="cancelEmail" class="col-sm"><i class="material-icons">cancel</i></a>
+                        <a href="#!" id="confirmEmail" class="col-sm"><i class="material-icons">save</i></a>
+                    </row>
+                    <a href="#!" id="editEmail" class="secondary-content edit"><i class="material-icons">edit</i></a>
+                </li>
+                
+				<li class="collection-item">Name: <span id="fullName"></span>
+                    <row>
+                        <input id="nameInput" class="col-sm" >
+                        <a href="#!" id="cancelName" class="col-sm"><i class="material-icons">cancel</i></a>
+                        <a href="#!" id="confirmName" class="col-sm"><i class="material-icons">save</i></a>
+                    </row>
+                    <a href="#!" id="editName" class="secondary-content edit"><i class="material-icons">edit</i></a>
+                </li>
+                
+				<li class="collection-item">Last Access: <span id="lastAccess"></span><a href="#!" class="secondary-content edit"><i class="material-icons">edit</i></a></li>
+                <li class="collection-item" id="changePasswordForm">
+					<label for="password">New Password:</label>
+					<input type="text" id="password" name="password" col="30">
+                    <label for="passwordConfirm">Confirm Password:</label>
+					<input type="text" id="passwordConfirm" name="passwordConfirm" col="30">
+					<button id="savePassword" class="waves-effect waves-light btn">Save</button> 
+					<button id="cancelPassword" class="waves-effect waves-light btn">Cancel</button> 
+				</li>
+                <li class="collection-item" id="changePasswordControl"><a href="#!" id="changePassword">Change Password</a></li>
 			</ul>
-			<ul class="collection with-header" id="devices">
+            
+			<ul class="collection with-header" data-list="devices" id="devices">
 				<li class="collection-header">
 					<h5>Devices</h5>
 				</li>
