@@ -1,7 +1,7 @@
 var db = require("../db");
 
 var activitySchema = new db.Schema({
-    deviceId: Number,
+    deviceId: String,
     createdTime :  { type: Date, default: Date.now },
     points : [{
         latitude: Number,
@@ -17,7 +17,7 @@ var Activity = db.model("Activity", activitySchema);
 module.exports = Activity;
 
 //db.activities.insert({
-//    deviceId: 210040001647363335343834, 
+//    deviceId: "210040001647363335343834", 
 //    createdTime : ISODate("2018-11-14T05:47:10.272Z"),
 //    points: [{
 //            latitude: 32.231491,

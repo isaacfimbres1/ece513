@@ -42,11 +42,55 @@ router.get("/account" , function(req, res) {
                         } 
                     });
                 }
-                
+
                 return res.status(200).json(data);            
             }       
         });
-     }
+    }
+    catch (ex) {
+        return res.status(401).json({success: false, message: "Invalid authentication token."});
+    }
+});
+
+//url: /activites/:id
+router.get("/:id" , function(req, res) {
+    // Check for authentication token in x-auth header
+    if (!req.headers["x-auth"]) {
+        return res.status(401).json({success: false, message: "No authentication token"});
+    }
+
+    var authToken = req.headers["x-auth"];
+
+    try {
+        var decodedToken = jwt.decode(authToken, secret);
+        var activityId = req.params.id;
+        var data = [];
+        console.log("act id: " + activityId);
+
+        Activity.findById(activityId, function (err, activity){
+            if(err){
+                return res.status(400).json({success: false, message: "Error with that id"});
+            }
+            else if(activity === null){
+                return res.status(400).json({success: false, message: "Couldn't find activity with that id"});
+            }
+            else{
+                //verify that the user and device id match
+                console.log("Looking for " + activity.deviceId + " and " + decodedToken.email );
+                Device.findOne({deviceId: activity.deviceId, userEmail: decodedToken.email}, function (err, device) {
+                    console.log("error" + err);
+                    console.log("device" + device);
+                    if(device){
+                        return res.status(200).json(activity);
+                    }
+                    else{
+                        return res.status(400).json({success: false, message: "Couldn't find valid device"});
+                    } 
+                });
+            }
+        });
+
+    }
     catch (ex) {
         return res.status(401).json({success: false, message: "Invalid authentication token."});
     }

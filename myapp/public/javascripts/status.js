@@ -23,6 +23,19 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
                                    device.deviceId + ", APIKEY: " + device.apikey + 
                                       "<a href='#!' class='secondary-content'><i class='delete material-icons'>delete</i></a></li>");
     }
+    //api.openweathermap.org/data/2.5/forecast?id=5318313&APPID={d81e4cfa0e021214f32500f2cffb42d2}
+    $.ajax({
+        url: "http://api.openweathermap.org/data/2.5/forecast?id=5318313&APPID={d81e4cfa0e021214f32500f2cffb42d2}",
+        type: 'GET',
+        responseType: 'json',
+        success: (data) => {
+            console.log("data" + data);
+        },
+        error: (err) => {
+            console.log("err" + err);
+        }
+    });
+    
 }
 
 function accountInfoError(jqXHR, textStatus, errorThrown) {
