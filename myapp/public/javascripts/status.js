@@ -9,6 +9,20 @@ function sendReqForAccountInfo() {
     });
 }
 
+function dayOfWeek(num){
+    switch(num){
+            
+        case 0 : return "Sun";
+        case 1 : return "Mon";
+        case 2 : return "Tue";
+        case 3 : return "Wed";
+        case 4 : return "Thur";
+        case 5 : return "Fri";
+        case 6 : return "Sat";
+            
+    }
+}
+
 function accountInfoSuccess(data, textSatus, jqXHR) {
     console.log(data)
     $("#email").html(data.email);
@@ -33,8 +47,14 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
         success: (data) => {
             //icon http://openweathermap.org/img/w/10d.png
             console.log(data);
+            
+            
             var day = parseISOString(data[0].date_iso);
-            console.log(day.getDate());
+            //console.log(day.getDayName());
+            
+            $("#uv1").html(data[0].value);
+            $("#uv2").html(data[1].value);
+            $("#uv3").html(data[2].value);
             
             
             
