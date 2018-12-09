@@ -15,7 +15,7 @@ var UVEvent = require("../models/event");
 //                recorded: { type: Date, default: Date.now }
 
 router.post('', function(req, res, next) {
-    console.log(req.body);
+    //console.log(req.body);
     var uvevent = new UVEvent({
         deviceId: req.body.deviceId,
         speed: req.body.speed,
@@ -78,10 +78,10 @@ router.get('', function(req, res, next) {
     
 });
 
-router.get('/config', function(req, res, next) {
+router.post('/config', function(req, res, next) {
     
-    Device.findOne({deviceId: req.params.deviceId}, function(err, device){
-        console.log("Looking for device" + req.params.deviceId);
+    Device.findOne({deviceId: req.body.deviceId}, function(err, device){
+        console.log("Looking for device" + req.body.deviceId);
         if(err || !device){
             res.status(400).send({success: false, error: err});
             console.log(err);
