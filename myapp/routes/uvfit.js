@@ -78,7 +78,7 @@ router.get('', function(req, res, next) {
     
 });
 
-router.get('config', function(req, res, next) {
+router.get('/config', function(req, res, next) {
     Device.findOne({deviceId: req.body.deviceid}, function(err, device){
         if(err || !device){
             res.status(400).send({success: false, error: err});
