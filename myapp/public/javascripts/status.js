@@ -12,13 +12,13 @@ function sendReqForAccountInfo() {
 function dayOfWeek(num){
     switch(num){
             
-        case 0 : return "Sun";
-        case 1 : return "Mon";
-        case 2 : return "Tue";
-        case 3 : return "Wed";
-        case 4 : return "Thur";
-        case 5 : return "Fri";
-        case 6 : return "Sat";
+        case 0 : return "Sunday";
+        case 1 : return "Monday";
+        case 2 : return "Tuesday";
+        case 3 : return "Wednesday";
+        case 4 : return "Thursday";
+        case 5 : return "Friday";
+        case 6 : return "Saturday";
             
     }
 }
@@ -37,50 +37,88 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
                                    device.deviceId + ", APIKEY: " + device.apikey + 
                                       "<a href='#!' class='secondary-content'><i class='delete material-icons'>delete</i></a></li>");
     }
-    //api.openweathermap.org/data/2.5/forecast?id=5318313&APPID={d81e4cfa0e021214f32500f2cffb42d2}
+    //http://api.openweathermap.org/data/2.5/forecast?id=5318313&APPID=d81e4cfa0e021214f32500f2cffb42d2
     //api.openweathermap.org/data/2.5/forecast/daily?id={city ID}&cnt={cnt}
     //http://api.openweathermap.org/data/2.5/uvi/forecast?appid={d81e4cfa0e021214f32500f2cffb42d2}&lat={32.2226}&lon={110.9747}&cnt={3}
+    
     $.ajax({
-        url: "http://api.openweathermap.org/data/2.5/uvi/forecast?appid=d81e4cfa0e021214f32500f2cffb42d2&lat=32.2226&lon=110.9747&cnt=3",
+        url: "http://api.openweathermap.org/data/2.5/uvi/forecast?appid=d81e4cfa0e021214f32500f2cffb42d2&lat=32.2226&lon=110.9747&cnt=2",
         type: 'GET',
         responseType: 'json',
         success: (data) => {
-            //icon http://openweathermap.org/img/w/10d.png
-            console.log(data);
             
-
-            var day = parseISOString(data[0].date_iso);
+            var uv=[];
+            var day;
+            day = parseISOString(data[0].date_iso);
             console.log(dayOfWeek(day.getDay()));
             
-            $("#uv1").html(data[0].value);
-            $("#uv2").html(data[1].value);
-            $("#uv3").html(data[2].value);
+            data.forEach((el) =>{
+                day = parseISOString(el.date_iso);
+                uv[dayOfWeek(day.getDay())] = el.value;
+            });
             
+            //weather[day.getDay()].uv = data[0].value;
             
+//            $("#uv1").html(data[0].value);
+//            $("#uv2").html(data[1].value);
+//            $("#uv3").html(data[2].value);
             
-//            for(var i = 0; i < 10; ++i){
-//                var UTCTime = moment.utc(data.list[i].dt_txt).tz("America/Phoenix");
-//                console.log("UTC");
-//                console.log(UTCTime.format('YYYY-MM-DD HH:mm:ss'));
-//    
-//                console.log(UTCTime.date());
-                //console.log(data.list[i].main.temp);
-        
-        
-        
-//                //low
-//                console.log("Low: ");
-//                //console.log(data.list[i]);
-//                console.log(data.list[8*i+1].dt_txt);
-//                console.log(data.list[8*i+1].main.temp);
-//                
-//                //high
-//                console.log(data.list[8*i+4].dt_txt);
-//                console.log(data.list[8*i+4].main.temp);
-            
-//            }
-            
-            
+            $.ajax({
+                url: 'http://api.openweathermap.org/data/2.5/forecast?id=5318313&units=imperial&APPID=d81e4cfa0e021214f32500f2cffb42d2',
+                type: 'GET',
+                responseType: 'json',
+                success: (weatherData) => {
+                    console.log("Weather");
+                    console.log(weatherData);
+                    
+                    var max = [];
+                    var min = [];
+                    var UTCTime;
+                    var weather = [];
+                    //calculate max and mins and weather
+                    weatherData.list.forEach((element) =>{
+                        
+                        UTCTime = moment.utc(element.dt_txt).tz("America/Phoenix");
+                        
+                        weather[dayOfWeek(UTCTime.day())] = element.weather[0].icon;
+                        
+                        if(!max[dayOfWeek(UTCTime.day())]){
+                            max[dayOfWeek(UTCTime.day())] = element.main.temp; 
+                        }
+                        else if(!min[dayOfWeek(UTCTime.day())]){
+                            min[dayOfWeek(UTCTime.day())] = element.main.temp;
+                        }
+                        else if(element.main.temp > max[dayOfWeek(UTCTime.day())]){
+                            max[dayOfWeek(UTCTime.day())] = element.main.temp;
+                        }
+                        else if(element.main.temp < min[dayOfWeek(UTCTime.day())]){
+                            min[dayOfWeek(UTCTime.day())] = element.main.temp;
+                        }
+                    });
+                    var i = 1;
+                    for(key in uv){
+                        $(`#day${i}`).html(key);
+                        //icon http://openweathermap.org/img/w/10d.png
+                        $(`#icon${i}`).html(`<img src='http://openweathermap.org/img/w/${weather[key]}.png' />`);
+                        $(`#low${i}`).html(min[key]);
+                        $(`#high${i}`).html(max[key]);
+                        $(`#uv${i}`).html(uv[key]);
+                        
+                        ++i;
+                        
+//                        console.log("UV for " + key + " " +  uv[key]);
+//                        console.log("Max for " + key + " " +  max[key]);
+//                        console.log("min for " + key + " " + min[key]);
+//                        console.log("Icon for " + key + " " + weather[key]);
+                        
+                    }
+         
+
+                },
+                error: (err) =>{
+                    console.log(err);
+                }
+            });
             
         },
         error: (err) => {
