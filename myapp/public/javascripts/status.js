@@ -50,7 +50,7 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
             
             
             var day = parseISOString(data[0].date_iso);
-            //console.log(day.getDayName());
+            console.log(dayOfWeek(day.getDay()));
             
             $("#uv1").html(data[0].value);
             $("#uv2").html(data[1].value);
