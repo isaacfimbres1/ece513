@@ -16,7 +16,7 @@ var activityRouter = require('./routes/activities');
 
 var app = express();
 
-var https = require("https");
+//var https = require("https");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -62,8 +62,8 @@ var options = {
     cert: fs.readFileSync("mockserver.crt")
 
 }
-var server = https.createServer(options, app);
+//var server = https.createServer(options, app);
 
-server.listen(3443);
+//server.listen(3443);
 
 module.exports = app;

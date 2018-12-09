@@ -33,6 +33,18 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
             //icon http://openweathermap.org/img/w/10d.png
             console.log(data);
             for(var i = 0; i < 10; ++i){
+                var UTCTime = moment.utc(data.list[i].dt_txt).tz("America/Phoenix");
+                console.log("UTC");
+                console.log(UTCTime.format('YYYY-MM-DD HH:mm:ss'));
+            
+                //console.log(data.list[i].main.temp);
+                //console.log("MST");
+                //console.log(UTCTime.date());
+                
+                
+                //var MSTTime = UTCTime.tz('America/Phoenix').format('YYYY-MM-DD HH:mm:ss');;
+                
+                //console.log(MSTTime)
                 console.log(data.list[i].dt_txt);
                 console.log(data.list[i].main.temp);
 //                //low

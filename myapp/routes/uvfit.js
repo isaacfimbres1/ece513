@@ -78,4 +78,35 @@ router.get('', function(req, res, next) {
     
 });
 
+router.get('config', function(req, res, next) {
+    Device.findOne({deviceId: req.body.deviceid}, function(err, device){
+        if(err || !device){
+            res.status(400).send({success: false, error: err});
+            console.log(err);
+        }
+        else{
+            User.findOne({email: device.userEmail}, function(err, user){
+                if(err || !device){
+                    res.status(400).send({success: false, error: err});
+                    console.log(err);
+                }
+                else{
+                    res.status(200).send({
+                        success: true,
+                        threshold: user.threshold
+                    });
+                }
+                
+            }
+        }
+        
+        
+    });
+    
+    
+    
+    
+});
+        
+
 module.exports = router;
