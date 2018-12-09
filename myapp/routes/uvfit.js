@@ -79,15 +79,15 @@ router.get('', function(req, res, next) {
 });
 
 router.get('/config', function(req, res, next) {
-    console.log(req);
-    console.log(req.params.deviceId);
     
     Device.findOne({deviceId: req.params.deviceId}, function(err, device){
+        console.log("Looking for device" + req.params.deviceId);
         if(err || !device){
             res.status(400).send({success: false, error: err});
             console.log(err);
         }
         else{
+            console.log("Looking for email" + device.userEmail);
             User.findOne({email: device.userEmail}, function(err, user){
                 if(err || !user){
                     res.status(400).send({success: false, error: err});
@@ -98,7 +98,7 @@ router.get('/config', function(req, res, next) {
                         success: true,
                         threshold: user.threshold
                     });
-                    res.status(200).send({
+                    res.status(200).json({
                         success: true,
                         threshold: user.threshold
                     });
