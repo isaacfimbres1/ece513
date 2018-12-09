@@ -86,11 +86,15 @@ router.get('config', function(req, res, next) {
         }
         else{
             User.findOne({email: device.userEmail}, function(err, user){
-                if(err || !device){
+                if(err || !user){
                     res.status(400).send({success: false, error: err});
                     console.log(err);
                 }
                 else{
+                    console.log({
+                        success: true,
+                        threshold: user.threshold
+                    });
                     res.status(200).send({
                         success: true,
                         threshold: user.threshold

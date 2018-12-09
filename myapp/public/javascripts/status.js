@@ -25,28 +25,29 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
     }
     //api.openweathermap.org/data/2.5/forecast?id=5318313&APPID={d81e4cfa0e021214f32500f2cffb42d2}
     //api.openweathermap.org/data/2.5/forecast/daily?id={city ID}&cnt={cnt}
+    //http://api.openweathermap.org/data/2.5/uvi/forecast?appid={d81e4cfa0e021214f32500f2cffb42d2}&lat={32.2226}&lon={110.9747}&cnt={3}
     $.ajax({
-        url: "http://api.openweathermap.org/data/2.5/forecast?id=5318313&units=imperial&APPID=d81e4cfa0e021214f32500f2cffb42d2",
+        url: "http://api.openweathermap.org/data/2.5/uvi/forecast?appid=d81e4cfa0e021214f32500f2cffb42d2&lat=32.2226&lon=110.9747&cnt=3",
         type: 'GET',
         responseType: 'json',
         success: (data) => {
             //icon http://openweathermap.org/img/w/10d.png
             console.log(data);
-            for(var i = 0; i < 10; ++i){
-                var UTCTime = moment.utc(data.list[i].dt_txt).tz("America/Phoenix");
-                console.log("UTC");
-                console.log(UTCTime.format('YYYY-MM-DD HH:mm:ss'));
+            var day = parseISOString(data[0].date_iso);
+            console.log(day.getDate());
             
+            
+            
+//            for(var i = 0; i < 10; ++i){
+//                var UTCTime = moment.utc(data.list[i].dt_txt).tz("America/Phoenix");
+//                console.log("UTC");
+//                console.log(UTCTime.format('YYYY-MM-DD HH:mm:ss'));
+//    
+//                console.log(UTCTime.date());
                 //console.log(data.list[i].main.temp);
-                //console.log("MST");
-                //console.log(UTCTime.date());
-                
-                
-                //var MSTTime = UTCTime.tz('America/Phoenix').format('YYYY-MM-DD HH:mm:ss');;
-                
-                //console.log(MSTTime)
-                console.log(data.list[i].dt_txt);
-                console.log(data.list[i].main.temp);
+        
+        
+        
 //                //low
 //                console.log("Low: ");
 //                //console.log(data.list[i]);
@@ -57,7 +58,7 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
 //                console.log(data.list[8*i+4].dt_txt);
 //                console.log(data.list[8*i+4].main.temp);
             
-            }
+//            }
             
             
             
@@ -68,7 +69,10 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
     });
     
 }
-
+function parseISOString(s) {
+    var b = s.split(/\D+/);
+    return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+}
 function accountInfoError(jqXHR, textStatus, errorThrown) {
     // If authentication error, delete the authToken 
     // redirect user to sign-in page (which is index.html)
