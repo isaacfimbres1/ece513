@@ -97,7 +97,7 @@ router.get('config', function(req, res, next) {
                     });
                 }
                 
-            }
+            });
         }
         
         
