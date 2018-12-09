@@ -117,7 +117,7 @@ router.post("/create", function(req, res) {
                                         }
                                     });
                                 }
-                            },
+                            }
                         );
                     }
                 });
