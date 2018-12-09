@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require("body-parser");
+var fs = require('fs');
 
 //import routers
 
@@ -14,6 +15,8 @@ var eventsRouter = require('./routes/uvfit');
 var activityRouter = require('./routes/activities');
 
 var app = express();
+
+var https = require("https");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -51,5 +54,16 @@ app.use(function(err, req, res, next) {
 });
 
 //app.listen(3000);
+
+var options = {
+
+    key: fs.readFileSync("mockserver.key"),
+
+    cert: fs.readFileSync("mockserver.crt")
+
+}
+var server = https.createServer(options, app);
+
+server.listen(3443);
 
 module.exports = app;

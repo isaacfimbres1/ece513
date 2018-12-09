@@ -24,12 +24,31 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
                                       "<a href='#!' class='secondary-content'><i class='delete material-icons'>delete</i></a></li>");
     }
     //api.openweathermap.org/data/2.5/forecast?id=5318313&APPID={d81e4cfa0e021214f32500f2cffb42d2}
+    //api.openweathermap.org/data/2.5/forecast/daily?id={city ID}&cnt={cnt}
     $.ajax({
-        url: "http://api.openweathermap.org/data/2.5/forecast?id=5318313&APPID={d81e4cfa0e021214f32500f2cffb42d2}",
+        url: "http://api.openweathermap.org/data/2.5/forecast?id=5318313&units=imperial&APPID=d81e4cfa0e021214f32500f2cffb42d2",
         type: 'GET',
         responseType: 'json',
         success: (data) => {
-            console.log("data" + data);
+            //icon http://openweathermap.org/img/w/10d.png
+            console.log(data);
+            for(var i = 0; i < 10; ++i){
+                console.log(data.list[i].dt_txt);
+                console.log(data.list[i].main.temp);
+//                //low
+//                console.log("Low: ");
+//                //console.log(data.list[i]);
+//                console.log(data.list[8*i+1].dt_txt);
+//                console.log(data.list[8*i+1].main.temp);
+//                
+//                //high
+//                console.log(data.list[8*i+4].dt_txt);
+//                console.log(data.list[8*i+4].main.temp);
+            
+            }
+            
+            
+            
         },
         error: (err) => {
             console.log("err" + err);
