@@ -5,7 +5,8 @@ var User = db.model("User", {
     email: String,
     passwordHash: String,
     deviceId: [Number],
-    confirmed: Boolean
+    confirmed: Boolean,
+    threshold: Number
 });
 
 module.exports = User;

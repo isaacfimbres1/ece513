@@ -48,7 +48,7 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
             //icon http://openweathermap.org/img/w/10d.png
             console.log(data);
             
-            
+
             var day = parseISOString(data[0].date_iso);
             console.log(dayOfWeek(day.getDay()));
             
