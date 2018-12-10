@@ -18,13 +18,34 @@ var Activity = require("../models/activity");
 router.post('', function(req, res, next) {
     //console.log(req.body);
     Activity.findOne({deviceId: req.body.deviceId, createdTime: req.body.startTime}, function(err, activity){
-        console.log(activity);
         if (err) {
             res.status(400).send(err);
         }
         else{
-            if(!activity){
-                //add new here
+            if(!activity) {
+                var newActivity = new Activity({
+                    deviceId: req.body.deviceId,
+                    createdTime: req.body.createdTime,
+                    type: "unknown",
+                    points: [{
+                        latitude: req.body.latitude,
+                        longitude: req.body.longitude,
+                        speed: req.body.speed,
+                        uv: req.body.uv,
+                        timeStamp: req.body.timeStamp
+                    }]
+                });
+                
+                newActivity.save(function(err, use){
+                    if(err) {
+                        res.status(400).send(err);
+                    }
+                    else {
+                        console.log(use._id);
+                        console.log(use.createdTime);
+                        res.status(200).json({success: true, message: "New Activity Added!"})
+                    }  
+                });
             }
             else{
                 var tempPoint = {
@@ -40,11 +61,11 @@ router.post('', function(req, res, next) {
                     { $push: {points: tempPoint }},
                     done
                 );
-                res.status(200).json({
-                    success: true,
-                    threshold: user.threshold
-                });
             }
+            res.status(200).json({
+                success: true,
+                timestamp: req.body.timeStamp
+            });
         }        
         
     });
