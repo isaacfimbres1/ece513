@@ -18,6 +18,7 @@ var Activity = require("../models/activity");
 router.post('', function(req, res, next) {
     //console.log(req.body);
     Activity.findOne({deviceId: req.body.deviceId, createdTime: req.body.startTime}, function(err, activity){
+        console.log(req.body.uvthreshold);
         if (err) {
             res.status(400).send(err);
         }
