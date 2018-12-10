@@ -31,7 +31,7 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
 
     // Add the devices to the list before the list item for the add device button (link)
     for (var device of data.devices) {
-        $("#addDeviceForm").before("<li class='collection-item' data-id='" + device.deviceId + "'>ID: " +
+        $("#addDeviceForm").before("<li id='userDevice' class='collection-item' data-id='" + device.deviceId + "'>ID: " +
                                    device.deviceId + ", APIKEY: " + device.apikey + 
                                    "</li>");
     }
@@ -156,6 +156,7 @@ function registerDevice() {
 //            $("#addDeviceForm").before("<li class='collection-item' data-id='" + $("#deviceId").val() + "'>ID: " +
 //                                       $("#deviceId").val() + ", APIKEY: " + data["apikey"] + 
 //                                       "<a href='#!' class='secondary-content'><i class='material-icons' >delete</i></a></li>");
+            $("#userDevice").remove();
             sendReqForAccountInfo();
             hideAddDeviceForm();
         },
