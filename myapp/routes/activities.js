@@ -18,32 +18,37 @@ router.get("/account" , function(req, res) {
     if (!req.headers["x-auth"]) {
         return res.status(401).json({success: false, message: "No authentication token"});
     }
-
     var authToken = req.headers["x-auth"];
-
     try {
         var decodedToken = jwt.decode(authToken, secret);
-        var data = [];
+        var response = [];
 
-        Device.find({ userEmail : decodedToken.email}, function(err, devices) {
-            if(err) {
-                return res.status(200).json({success: false, message: "User has no devices."});
+        Device.findOne({ userEmail : decodedToken.email}, function(err, device) {
+            console.log("Devices: ");
+            console.log(device);
+            if(err || !device) {
+                return res.status(400).json({success: false, message: "User has no devices."});
             }
-            else {
-                for (device of devices) {
-                    Activity.find({deviceId: device.deviceId}, function(err, activities){
-                        if(err){
-                            return res.status(200).json({success: false, message: "Device has no activites."});
+            else {   
+                Activity.find({deviceId: device.deviceId}, function(err, activities){
+                    console.log("Activities: ");
+                    console.log(activities);
+                    if(err){
+                        return res.status(400).json({success: false, message: "Device has no activites."});
+                    }
+                    else{
+                        for(el of activities){
+                            response.push(el);
                         }
-                        else{
-                            for(activity of activities){
-                                data.push(activity);
-                            }
-                        } 
-                    });
-                }
+                        console.log("Response: ");
+                        console.log(response);
+                        return res.status(200).json(response);
 
-                return res.status(200).json(data);            
+                    } 
+                });
+                
+              
+                           
             }       
         });
     }

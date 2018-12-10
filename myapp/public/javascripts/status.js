@@ -10,8 +10,7 @@ function sendReqForAccountInfo() {
 }
 
 function dayOfWeek(num){
-    switch(num){
-            
+    switch(num){     
         case 0 : return "Sunday";
         case 1 : return "Monday";
         case 2 : return "Tuesday";
@@ -19,7 +18,6 @@ function dayOfWeek(num){
         case 4 : return "Thursday";
         case 5 : return "Friday";
         case 6 : return "Saturday";
-            
     }
 }
 
@@ -77,10 +75,12 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
                     var weather = [];
                     //calculate max and mins and weather
                     weatherData.list.forEach((element) =>{
-                        
                         UTCTime = moment.utc(element.dt_txt).tz("America/Phoenix");
                         
-                        weather[dayOfWeek(UTCTime.day())] = element.weather[0].icon;
+                        //get icon for 2:00 PM
+                        if(UTCTime.hour() === 14){
+                            weather[dayOfWeek(UTCTime.day())] = element.weather[0].icon;    
+                        }
                         
                         if(!max[dayOfWeek(UTCTime.day())]){
                             max[dayOfWeek(UTCTime.day())] = element.main.temp; 
@@ -112,14 +112,11 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
 //                        console.log("Icon for " + key + " " + weather[key]);
                         
                     }
-         
-
                 },
                 error: (err) =>{
                     console.log(err);
                 }
             });
-            
         },
         error: (err) => {
             console.log("err" + err);

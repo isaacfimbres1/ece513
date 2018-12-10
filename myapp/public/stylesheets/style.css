@@ -39,3 +39,33 @@ a {
 #changePasswordForm, #emailForm, #emailInput, #confirmEmail, #cancelEmail, #nameInput, #confirmName, #cancelName{
     display: none;
 }
+
+
+.element{
+    display:inline-block;
+}
+
+.score {
+    clear: both;
+    width: 100px;
+    height: 60px;
+    background-color: lightblue;
+    border: 1px solid darkblue;
+    border-radius: 5px;
+    color: white;
+    font-size: 2.2em;
+    /*Center the text*/
+    text-align: center;
+    vertical-align: middle;
+    line-height: 60px; /*Same as the div height*/
+    top: 30px;
+    left: 735px;
+    z-index: 99; /*Place elements with this class in front of other elements*/
+}
+
+.image {
+    display:block;
+    height: 180px;
+    width: 100%;
+}
+
