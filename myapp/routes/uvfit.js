@@ -43,7 +43,7 @@ router.post('', function(req, res, next) {
                     else {
                         console.log(use._id);
                         console.log(use.createdTime);
-                        res.status(200).json({success: true, message: "New Activity Added!"})
+                        res.status(200).json({success: true, message: "New Activity Added!"});
                     }  
                 });
             }
