@@ -6,6 +6,7 @@ var fs = require('fs');
 var Device = require("../models/device");
 var User = require("../models/user");
 var UVEvent = require("../models/event");
+var Activity = require("../models/activity");
 
 
 //speed: Number,
@@ -16,23 +17,32 @@ var UVEvent = require("../models/event");
 
 router.post('', function(req, res, next) {
     //console.log(req.body);
-    var uvevent = new UVEvent({
-        deviceId: req.body.deviceId,
-        speed: req.body.speed,
-        uv: req.body.uv,
-        latitude: req.body.latitude,
-        longitude: req.body.longitude,
-        
-    });
-
-    uvevent.save(function(err, e) {
+    Activity.find({createdTime: req.body.startTime}, function(err, activities){
+        console.log(activities);
         if (err) {
             res.status(400).send(err);
-        }   else {
-            res.status(200).send(e);
         }
-    });
+        else{
+            var tempPoint = {
+                speed: req.body.speed,
+                uv: req.body.uv,
+                latitude: req.body.latitude,
+                longitude: req.body.longitude,
+                timeStamp: req.body.timeStamp
+            };
 
+            Activity.update(
+                { _id: activities._id},
+                { $push: {points: point }},
+                done
+            );
+            res.status(200).json({
+                success: true,
+                threshold: user.threshold
+            });
+        }        
+        
+    });
 });
 
 router.get('/:devid', function(req, res, next) {
