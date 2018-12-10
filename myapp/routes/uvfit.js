@@ -27,23 +27,23 @@ router.post('', function(req, res, next) {
                 //add new here
             }
             else{
-                var tempPoint = {
-                    speed: req.body.speed,
-                    uv: req.body.uv,
-                    latitude: req.body.latitude,
-                    longitude: req.body.longitude,
-                    timeStamp: req.body.timeStamp
-                };
-
-                Activity.update(
-                    { _id: activities._id},
-                    { $push: {points: tempPoint }},
-                    done
-                );
-                res.status(200).json({
-                    success: true,
-                    threshold: user.threshold
-                });
+//                var tempPoint = {
+//                    speed: req.body.speed,
+//                    uv: req.body.uv,
+//                    latitude: req.body.latitude,
+//                    longitude: req.body.longitude,
+//                    timeStamp: req.body.timeStamp
+//                };
+//
+//                Activity.update(
+//                    { _id: activities._id},
+//                    { $push: {points: tempPoint }},
+//                    done
+//                );
+//                res.status(200).json({
+//                    success: true,
+//                    threshold: user.threshold
+//                });
             }
         }        
         
