@@ -27,40 +27,41 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
     $("#fullName").html(data.name);
     $("#lastAccess").html(data.lastAccess);
     $("#main").show();
-    
+
 
     // Add the devices to the list before the list item for the add device button (link)
     for (var device of data.devices) {
         $("#addDeviceForm").before("<li class='collection-item' data-id='" + device.deviceId + "'>ID: " +
                                    device.deviceId + ", APIKEY: " + device.apikey + 
-                                      "<a href='#!' class='secondary-content'><i class='delete material-icons'>delete</i></a></li>");
+                                   "<a href='#!' class='secondary-content'><i class='delete material-icons'>delete</i></a></li>");
     }
     //http://api.openweathermap.org/data/2.5/forecast?id=5318313&APPID=d81e4cfa0e021214f32500f2cffb42d2
     //api.openweathermap.org/data/2.5/forecast/daily?id={city ID}&cnt={cnt}
     //http://api.openweathermap.org/data/2.5/uvi/forecast?appid={d81e4cfa0e021214f32500f2cffb42d2}&lat={32.2226}&lon={110.9747}&cnt={3}
-    
+
     $.ajax({
-        url: "http://api.openweathermap.org/data/2.5/uvi/forecast?appid=d81e4cfa0e021214f32500f2cffb42d2&lat=32.2226&lon=110.9747&cnt=2",
+        url: "http://api.openweathermap.org/data/2.5/uvi/forecast?appid=d81e4cfa0e021214f32500f2cffb42d2&lat=32.2226&lon=110.9747&cnt=3",
         type: 'GET',
         responseType: 'json',
         success: (data) => {
-            
+            console.log(data);
             var uv=[];
             var day;
             day = parseISOString(data[0].date_iso);
-            console.log(dayOfWeek(day.getDay()));
-            
+            //console.log(moment.utc(day).tz("America/Phoenix").date());
+            //console.log(dayOfWeek(day.getDay()));
+
             data.forEach((el) =>{
                 day = parseISOString(el.date_iso);
                 uv[dayOfWeek(day.getDay())] = el.value;
             });
-            
+
             //weather[day.getDay()].uv = data[0].value;
-            
-//            $("#uv1").html(data[0].value);
-//            $("#uv2").html(data[1].value);
-//            $("#uv3").html(data[2].value);
-            
+
+            //            $("#uv1").html(data[0].value);
+            //            $("#uv2").html(data[1].value);
+            //            $("#uv3").html(data[2].value);
+
             $.ajax({
                 url: 'http://api.openweathermap.org/data/2.5/forecast?id=5318313&units=imperial&APPID=d81e4cfa0e021214f32500f2cffb42d2',
                 type: 'GET',
@@ -68,7 +69,7 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
                 success: (weatherData) => {
                     console.log("Weather");
                     console.log(weatherData);
-                    
+
                     var max = [];
                     var min = [];
                     var UTCTime;
@@ -76,12 +77,12 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
                     //calculate max and mins and weather
                     weatherData.list.forEach((element) =>{
                         UTCTime = moment.utc(element.dt_txt).tz("America/Phoenix");
-                        
+
                         //get icon for 2:00 PM
                         if(UTCTime.hour() === 14){
                             weather[dayOfWeek(UTCTime.day())] = element.weather[0].icon;    
                         }
-                        
+
                         if(!max[dayOfWeek(UTCTime.day())]){
                             max[dayOfWeek(UTCTime.day())] = element.main.temp; 
                         }
@@ -103,14 +104,14 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
                         $(`#low${i}`).html(min[key]);
                         $(`#high${i}`).html(max[key]);
                         $(`#uv${i}`).html(uv[key]);
-                        
+
                         ++i;
-                        
-//                        console.log("UV for " + key + " " +  uv[key]);
-//                        console.log("Max for " + key + " " +  max[key]);
-//                        console.log("min for " + key + " " + min[key]);
-//                        console.log("Icon for " + key + " " + weather[key]);
-                        
+
+                        //                        console.log("UV for " + key + " " +  uv[key]);
+                        //                        console.log("Max for " + key + " " +  max[key]);
+                        //                        console.log("min for " + key + " " + min[key]);
+                        //                        console.log("Icon for " + key + " " + weather[key]);
+
                     }
                 },
                 error: (err) =>{
@@ -122,7 +123,7 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
             console.log("err" + err);
         }
     });
-    
+
 }
 function parseISOString(s) {
     var b = s.split(/\D+/);
@@ -154,7 +155,7 @@ function registerDevice() {
             // Add new device to the device list
             $("#addDeviceForm").before("<li class='collection-item' data-id='" + $("#deviceId").val() + "'>ID: " +
                                        $("#deviceId").val() + ", APIKEY: " + data["apikey"] + 
-                                      "<a href='#!' class='secondary-content'><i class='material-icons' >delete</i></a></li>");
+                                       "<a href='#!' class='secondary-content'><i class='material-icons' >delete</i></a></li>");
             hideAddDeviceForm();
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -185,7 +186,7 @@ function showChangePasswordForm() {
     $("#passwordConfirm").val("");
     $("#changePasswordControl").hide();    // Hide the add device link
     $("#changePasswordForm").slideDown();  // Show the add device form    
-    
+
 }
 function hideChangePasswordForm() {
     $("#changePasswordControl").show();  // Hide the add device link
@@ -196,36 +197,36 @@ function deleteDevice(e) {
     if(e.target.parentNode.parentNode.dataset.id){
         console.log(e.target.parentNode.parentNode.dataset.id);
         $.ajax({
-        url: '/devices/id',
-        type: 'DELETE',
-        headers: { 'x-auth': window.localStorage.getItem("authToken") },   
-        data: { deviceId: e.target.parentNode.parentNode.dataset.id}, 
-        responseType: 'json',
-        success: function (data, textStatus, jqXHR) {
-            e.target.parentNode.parentNode.remove();
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR.responseText);
-            var response = JSON.parse(jqXHR.responseText);
-            $("#error").html("Error: " + response.message);
-            $("#error").show();
-        }
+            url: '/devices/id',
+            type: 'DELETE',
+            headers: { 'x-auth': window.localStorage.getItem("authToken") },   
+            data: { deviceId: e.target.parentNode.parentNode.dataset.id}, 
+            responseType: 'json',
+            success: function (data, textStatus, jqXHR) {
+                e.target.parentNode.parentNode.remove();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+                var response = JSON.parse(jqXHR.responseText);
+                $("#error").html("Error: " + response.message);
+                $("#error").show();
+            }
         });  
     }
 }
 function editEmail(e){
     $("#emailInput").val($("#email").text());
-    
+
     $("#email").hide();
     $("#editEmail").hide();
     $("#emailInput").show();
     $("#confirmEmail").show();
     $("#cancelEmail").show();
-    
+
 }
 function editName(e){
     $("#nameInput").val($("#fullName").text());
-    
+
     $("#fullName").hide();
     $("#editName").hide();
     $("#nameInput").show();
@@ -247,15 +248,15 @@ function cancelName(e){
     $("#cancelName").hide();
 }
 function confirmEmail(e){
-    
+
     //TODO email verification
-    
+
     $.ajax({
         url: '/users/email',
         type: 'PUT',
         headers: { 'x-auth': window.localStorage.getItem("authToken") },   
         data: { email: $("#email").text(),
-                updatedEmail: $("#emailInput").val() 
+               updatedEmail: $("#emailInput").val() 
               }, 
         responseType: 'json',
         success: function (data, textStatus, jqXHR) {
@@ -272,15 +273,15 @@ function confirmEmail(e){
     }); 
 }
 function confirmName(e){
-    
+
     //TODO Name verificaiton
-    
+
     $.ajax({
         url: '/users/name',
         type: 'PUT',
         headers: { 'x-auth': window.localStorage.getItem("authToken") },   
         data: { email: $("#email").text(),
-                name: $("#nameInput").val() 
+               name: $("#nameInput").val() 
               }, 
         responseType: 'json',
         success: function (data, textStatus, jqXHR) {
@@ -295,19 +296,19 @@ function confirmName(e){
             $("#error").show();
         }
     }); 
-    
+
 }
 
 function confirmPassword(e){
-    
+
     //TODO Password verification
-    
+
     $.ajax({
         url: '/users/password',
         type: 'PUT',
         headers: { 'x-auth': window.localStorage.getItem("authToken") },   
         data: { email: $("#email").text(),
-                password: $("#passwordConfirm").val() 
+               password: $("#passwordConfirm").val() 
               }, 
         responseType: 'json',
         success: function (data, textStatus, jqXHR) {
@@ -321,7 +322,7 @@ function confirmPassword(e){
             $("#error").show();
         }
     }); 
-    
+
 }
 
 // Handle authentication on page load
@@ -339,24 +340,24 @@ $(function() {
     $("#addDevice").click(showAddDeviceForm);
     $("#registerDevice").click(registerDevice);   
     $("#cancel").click(hideAddDeviceForm);
-    
+
     $("#changePassword").click(showChangePasswordForm);
     $("#cancelPassword").click(hideChangePasswordForm);
     $("#savePassword").click(confirmPassword);
-    
+
     $("#editEmail").click(editEmail)
     $("#editName").click(editName)
-    
+
     $("#cancelEmail").click(cancelEmail);
     $("#confirmEmail").click(confirmEmail);
-    
+
     $("#cancelName").click(cancelName);
     $("#confirmName").click(confirmName);
-    
+
     //initialize device deletion listener
     var devices = $("[data-list='devices']");
     devices.click(deleteDevice);
 
-    
-    
+
+
 });

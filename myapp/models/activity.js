@@ -2,6 +2,7 @@ var db = require("../db");
 
 var activitySchema = new db.Schema({
     deviceId: String,
+    type: String,
     createdTime :  { type: Date, default: Date.now },
     points : [{
         latitude: Number,
@@ -18,54 +19,56 @@ module.exports = Activity;
 
 //db.activities.insert({
 //    deviceId: "350018000e47363336383437", 
-//    createdTime : ISODate("2018-11-14T05:47:10.272Z"),
+//    createdTime : ISODate("2018-12-07T05:47:10.272Z"),
+//    type: "walking",
 //    points: [{
 //            latitude: 32.231491,
 //            longitude: -110.951126,
 //            speed: 0.2,
 //            uv: 1,
-//            timeStamp: ISODate("2018-11-14T05:47:10.272Z")   
+//            timeStamp: ISODate("2018-12-07T05:47:10.272Z")   
 //        },
 //        {
 //             latitude: 32.231655,
 //             longitude: -110.951103,
 //             speed: 0.34,
 //             uv: 1,
-//             timeStamp: ISODate("2018-11-14T05:49:07.709Z")
+//             timeStamp: ISODate("2018-12-07T05:49:07.709Z")
 //         },
 //         {
 //             latitude: 32.231655,
 //             longitude: -110.951103,
 //             speed: 0.34,
 //             uv: 1,
-//             timeStamp: ISODate("2018-11-14T05:49:09.799Z")
+//             timeStamp: ISODate("2018-12-07T05:49:09.799Z")
 //         }  
 //    ]
 //}); 
 
 //db.activities.insert({
 //    deviceId: "350018000e47363336383437", 
-//    createdTime : ISODate("2018-11-15T05:47:10.272Z"),
+//    createdTime : ISODate("2018-12-08T05:47:10.272Z"),
+//    type: "walking",
 //    points: [{
 //            latitude: 32.231491,
 //            longitude: -110.951126,
 //            speed: 0.2,
 //            uv: 1,
-//            timeStamp: ISODate("2018-11-15T05:47:10.272Z")   
+//            timeStamp: ISODate("2018-12-08T05:47:10.272Z")   
 //        },
 //        {
 //             latitude: 32.231655,
 //             longitude: -110.951103,
 //             speed: 0.34,
 //             uv: 1,
-//             timeStamp: ISODate("2018-11-15T05:49:07.709Z")
+//             timeStamp: ISODate("2018-12-08T05:49:07.709Z")
 //         },
 //         {
 //             latitude: 32.231655,
 //             longitude: -110.951103,
 //             speed: 0.34,
 //             uv: 1,
-//             timeStamp: ISODate("2018-11-15T05:49:09.799Z")
+//             timeStamp: ISODate("2018-12-08T05:49:09.799Z")
 //         }  
 //    ]
 //}); 

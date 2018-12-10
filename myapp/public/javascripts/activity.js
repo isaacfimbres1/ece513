@@ -91,7 +91,7 @@ function activityInfoSuccess(data){
 }
 
 function setId(){
-    window.localStorage.setItem("deviceId", "5c0daae58a4aff52d824c6af");
+    window.localStorage.setItem("deviceId", "5c0db720de8cadbcffc3094e");
 }
 
 
