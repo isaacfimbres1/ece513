@@ -28,6 +28,7 @@ function calculateData(){
                     var sumCal = 0;
 
                     var today = new Date();
+                    var size =0;
 
                     console.log("Current Latitude");
                     console.log(latitude);
@@ -55,8 +56,10 @@ function calculateData(){
                             let days = Math.floor((timeSince) / msDay);
 
                             if(days <= 7){
+                                ++size;
+                                
                                 //total activity time
-                                total += (end - begin);
+                                total += (end - begin);                                
 
                                 // Total UV
                                 var i = 0;
@@ -92,7 +95,11 @@ function calculateData(){
                             }
                         }
                     });
-
+                    
+                    //calculate averages
+                    total = total / size;
+                    sumUV = sumUV / size;
+                    sumCal = sumCal / size;
 
                     let hours = Math.floor((total) % msDay / msHour);
                     let minutes = Math.floor((total % msDay) / msMinute);

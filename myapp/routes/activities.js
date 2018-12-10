@@ -78,8 +78,6 @@ router.get("/account" , function(req, res) {
                     } 
                 });
 
-
-
             }       
         });
     }
