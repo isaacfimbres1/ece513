@@ -81,7 +81,7 @@ router.get('/:email', function(req, res, next) {
 
 
 
-router.post('/register', function(req, res, next) {
+router.put('/register', function(req, res, next) {
     var responseJson = {
         registered: false,
         message : "",
@@ -116,42 +116,56 @@ router.post('/register', function(req, res, next) {
         }
         email = req.body.email;
     }
+    
+    deviceApikey = getNewApikey();
+    
+    var query = { userEmail: email };
+    var newData = {
+        userEmail : email,
+        deviceId : req.body.deviceId,
+        apikey : deviceApikey,
+    }
+    
+    Device.findOneAndUpdate(query, newData, {upsert:true}, function(err, doc){
+        if (err) return res.status(400).json({ error: err });
+        return res.status(200).json(doc);
+    });
 
     // See if device is already registered
-    Device.findOne({ deviceId: req.body.deviceId }, function(err, device) {
-        if (device !== null) {
-            responseJson.message = "Device ID " + req.body.deviceId + " already registered.";
-            return res.status(400).json(responseJson);
-        }
-        else {
-            // Get a new apikey
-            deviceApikey = getNewApikey();
-
-            // Create a new device with specified id, user email, and randomly generated apikey.
-            var newDevice = new Device({
-                deviceId: req.body.deviceId,
-                userEmail: email,
-                apikey: deviceApikey
-            });
-
-            // Save device. If successful, return success. If not, return error message.
-            newDevice.save(function(err, newDevice) {
-                if (err) {
-                    console.log("Error: " + err);
-                    responseJson.message = err;
-                    // This following is equivalent to:
-                    //     res.status(400).send(JSON.stringify(responseJson));
-                    return res.status(400).json(responseJson);
-                }
-                else {
-                    responseJson.registered = true;
-                    responseJson.apikey = deviceApikey;
-                    responseJson.message = "Device ID " + req.body.deviceId + " was registered.";
-                    return res.status(201).json(responseJson);
-                }
-            });
-        }
-    });
+//    Device.findOne({ deviceId: req.body.deviceId }, function(err, device) {
+//        if (device !== null) {
+//            responseJson.message = "Device ID " + req.body.deviceId + " already registered.";
+//            return res.status(400).json(responseJson);
+//        }
+//        else {
+//            // Get a new apikey
+//            deviceApikey = getNewApikey();
+//
+//            // Create a new device with specified id, user email, and randomly generated apikey.
+//            var newDevice = new Device({
+//                deviceId: req.body.deviceId,
+//                userEmail: email,
+//                apikey: deviceApikey
+//            });
+//
+//            // Save device. If successful, return success. If not, return error message.
+//            newDevice.save(function(err, newDevice) {
+//                if (err) {
+//                    console.log("Error: " + err);
+//                    responseJson.message = err;
+//                    // This following is equivalent to:
+//                    //     res.status(400).send(JSON.stringify(responseJson));
+//                    return res.status(400).json(responseJson);
+//                }
+//                else {
+//                    responseJson.registered = true;
+//                    responseJson.apikey = deviceApikey;
+//                    responseJson.message = "Device ID " + req.body.deviceId + " was registered.";
+//                    return res.status(201).json(responseJson);
+//                }
+//            });
+//        }
+//    });
 });
 
 router.delete('/id', function(req, res, next) {

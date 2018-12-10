@@ -177,7 +177,7 @@ router.get("/account" , function(req, res) {
                 userStatus['success'] = true;
                 userStatus['email'] = user.email;
                 userStatus['name'] = user.name;
-                userStatus['lastAccess'] = user.lastAccess;
+                userStatus['threshold'] = user.threshold;
 
                 // Find devices based on decoded token
                 Device.find({ userEmail : decodedToken.email}, function(err, devices) {
@@ -285,6 +285,30 @@ router.get("/confirmation/:token", function(req, res){
                 console.log(user);
                 return res.status(200).redirect('http://localhost:3000/');
                 //res.status(201).send(user);
+            }
+        });
+    } catch (e) {
+        res.status(400).send(e);
+    }
+});
+
+router.put("/threshold", function(req, res){
+     if (!req.headers["x-auth"]) {
+        return res.status(401).json({success: false, message: "No authentication token"});
+    }
+
+    var authToken = req.headers["x-auth"];
+    try {
+        var token = jwtAdvanced.verify(authToken, secret);
+        let query={
+            "email" : token.email
+        }
+        User.update(query, { $set: { threshold: req.body.threshold }}, function (err, data){
+            if(err){
+                return res.status(400).json({success: false, message: "Couldn't find valid activity"});
+            }
+            else{
+                return res.status(200).json({success : true}); 
             }
         });
     } catch (e) {

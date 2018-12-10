@@ -25,7 +25,7 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
     console.log(data)
     $("#email").html(data.email);
     $("#fullName").html(data.name);
-    $("#lastAccess").html(data.lastAccess);
+    $("#uvThreshold").html(data.threshold);
     $("#main").show();
 
 
@@ -33,7 +33,7 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
     for (var device of data.devices) {
         $("#addDeviceForm").before("<li class='collection-item' data-id='" + device.deviceId + "'>ID: " +
                                    device.deviceId + ", APIKEY: " + device.apikey + 
-                                   "<a href='#!' class='secondary-content'><i class='delete material-icons'>delete</i></a></li>");
+                                   "</li>");
     }
     //http://api.openweathermap.org/data/2.5/forecast?id=5318313&APPID=d81e4cfa0e021214f32500f2cffb42d2
     //api.openweathermap.org/data/2.5/forecast/daily?id={city ID}&cnt={cnt}
@@ -147,15 +147,16 @@ function accountInfoError(jqXHR, textStatus, errorThrown) {
 function registerDevice() {
     $.ajax({
         url: '/devices/register',
-        type: 'POST',
+        type: 'PUT',
         headers: { 'x-auth': window.localStorage.getItem("authToken") },   
         data: { deviceId: $("#deviceId").val() }, 
         responseType: 'json',
         success: function (data, textStatus, jqXHR) {
             // Add new device to the device list
-            $("#addDeviceForm").before("<li class='collection-item' data-id='" + $("#deviceId").val() + "'>ID: " +
-                                       $("#deviceId").val() + ", APIKEY: " + data["apikey"] + 
-                                       "<a href='#!' class='secondary-content'><i class='material-icons' >delete</i></a></li>");
+//            $("#addDeviceForm").before("<li class='collection-item' data-id='" + $("#deviceId").val() + "'>ID: " +
+//                                       $("#deviceId").val() + ", APIKEY: " + data["apikey"] + 
+//                                       "<a href='#!' class='secondary-content'><i class='material-icons' >delete</i></a></li>");
+            sendReqForAccountInfo();
             hideAddDeviceForm();
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -233,6 +234,15 @@ function editName(e){
     $("#confirmName").show();
     $("#cancelName").show();
 }
+function editUV(e){
+    $("#uvInput").val($("#uvThreshold").text());
+
+    $("#uvThreshold").hide();
+    $("#editUV").hide();
+    $("#uvInput").show();
+    $("#confirmUV").show();
+    $("#cancelUV").show();
+}
 function cancelEmail(e){
     $("#email").show();
     $("#editEmail").show();
@@ -246,6 +256,13 @@ function cancelName(e){
     $("#nameInput").hide();
     $("#confirmName").hide();
     $("#cancelName").hide();
+}
+function cancelUV(e){
+    $("#uvThreshold").show();
+    $("#editUV").show();
+    $("#uvInput").hide();
+    $("#confirmUV").hide();
+    $("#cancelUV").hide();
 }
 function confirmEmail(e){
 
@@ -324,6 +341,28 @@ function confirmPassword(e){
     }); 
 
 }
+function confirmUV(e){
+        $.ajax({
+        url: '/users/threshold',
+        type: 'PUT',
+        headers: { 'x-auth': window.localStorage.getItem("authToken") },   
+        data: { threshold: $("#uvInput").val() }, 
+        responseType: 'json',
+        success: function (data, textStatus, jqXHR) {
+            console.log(data);
+            $("#uvThreshold").html($("#uvInput").val());
+            cancelUV();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText);
+            var response = JSON.parse(jqXHR.responseText);
+            $("#error").html("Error: " + response.message);
+            $("#error").show();
+        }
+    }); 
+    
+}
+
 
 // Handle authentication on page load
 $(function() {
@@ -347,13 +386,18 @@ $(function() {
 
     $("#editEmail").click(editEmail)
     $("#editName").click(editName)
+    $("#editUV").click(editUV);
 
     $("#cancelEmail").click(cancelEmail);
     $("#confirmEmail").click(confirmEmail);
 
     $("#cancelName").click(cancelName);
     $("#confirmName").click(confirmName);
-
+    
+    $("#cancelUV").click(cancelUV);
+    $("#confirmUV").click(confirmUV);
+    
+    
     //initialize device deletion listener
     var devices = $("[data-list='devices']");
     devices.click(deleteDevice);

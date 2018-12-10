@@ -36,7 +36,7 @@ a {
 }
 /*changes start here*/
 
-#changePasswordForm, #emailForm, #emailInput, #confirmEmail, #cancelEmail, #nameInput, #confirmName, #cancelName{
+#changePasswordForm, #emailForm, #emailInput, #uvInput, #confirmEmail, #cancelEmail, #nameInput, #confirmName, #cancelName, #cancelUV, #confirmUV{
     display: none;
 }
 

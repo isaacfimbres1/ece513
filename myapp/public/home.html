@@ -65,7 +65,14 @@
                         <a href="#!" id="editName" class="secondary-content edit"><i class="material-icons">edit</i></a>
                     </li>
 
-                    <li class="collection-item">Last Access: <span id="lastAccess"></span><a href="#!" class="secondary-content edit"><i class="material-icons">edit</i></a></li>
+                    <li class="collection-item">UV Threshold: <span id="uvThreshold"></span>
+                        <row>
+                            <input id="uvInput" class="col-sm" >
+                            <a href="#!" id="cancelUV" class="col-sm"><i class="material-icons">cancel</i></a>
+                            <a href="#!" id="confirmUV" class="col-sm"><i class="material-icons">save</i></a>
+                        </row>
+                        <a href="#!" id="editUV" class="secondary-content edit"><i class="material-icons">edit</i></a>
+                    </li>
                     <li class="collection-item" id="changePasswordForm">
                         <label for="password">New Password:</label>
                         <input type="text" id="password" name="password" col="30">
@@ -87,11 +94,10 @@
                         <button id="registerDevice" class="waves-effect waves-light btn">Register</button> 
                         <button id="cancel" class="waves-effect waves-light btn">Cancel</button> 
                     </li>
-                    <li class="collection-item" id="addDeviceControl"><a href="#!" id="addDevice">Add Device</a></li>
+                    <li class="collection-item" id="addDeviceControl"><a href="#!" id="addDevice">Replace Device</a></li>
                 </ul>
                 <div class='red-text text-darken-2' id="error"></div>
-
-
+                
 
 
                 <ul class="collection with-header">
