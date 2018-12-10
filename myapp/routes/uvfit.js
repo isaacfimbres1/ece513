@@ -16,10 +16,9 @@ var Activity = require("../models/activity");
 //                recorded: { type: Date, default: Date.now }
 
 router.post('', function(req, res, next) {
-    //console.log(req.body);
+    console.log(req.body);
     if(!req.body.uvthreshold){
         Activity.findOne({deviceId: req.body.deviceId, createdTime: req.body.startTime}, function(err, activity){
-            console.log(req.body.uvthreshold);
             if (err) {
                 res.status(400).send(err);
             }
