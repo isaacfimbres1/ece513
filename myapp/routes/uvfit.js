@@ -17,29 +17,34 @@ var Activity = require("../models/activity");
 
 router.post('', function(req, res, next) {
     //console.log(req.body);
-    Activity.find({createdTime: req.body.startTime}, function(err, activities){
-        console.log(activities);
+    Activity.findOne({deviceId: req.body.deviceId}, {createdTime: req.body.startTime}, function(err, activity){
+        console.log(activity);
         if (err) {
             res.status(400).send(err);
         }
         else{
-            var tempPoint = {
-                speed: req.body.speed,
-                uv: req.body.uv,
-                latitude: req.body.latitude,
-                longitude: req.body.longitude,
-                timeStamp: req.body.timeStamp
-            };
+            if(!activity){
+                //add new here
+            }
+            else{
+                var tempPoint = {
+                    speed: req.body.speed,
+                    uv: req.body.uv,
+                    latitude: req.body.latitude,
+                    longitude: req.body.longitude,
+                    timeStamp: req.body.timeStamp
+                };
 
-            Activity.update(
-                { _id: activities._id},
-                { $push: {points: point }},
-                done
-            );
-            res.status(200).json({
-                success: true,
-                threshold: user.threshold
-            });
+                Activity.update(
+                    { _id: activities._id},
+                    { $push: {points: tempPoint }},
+                    done
+                );
+                res.status(200).json({
+                    success: true,
+                    threshold: user.threshold
+                });
+            }
         }        
         
     });
