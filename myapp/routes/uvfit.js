@@ -17,58 +17,60 @@ var Activity = require("../models/activity");
 
 router.post('', function(req, res, next) {
     //console.log(req.body);
-    Activity.findOne({deviceId: req.body.deviceId, createdTime: req.body.startTime}, function(err, activity){
-        console.log(req.body.uvthreshold);
-        if (err) {
-            res.status(400).send(err);
-        }
-        else{
-            if(!activity) {
-                var newActivity = new Activity({
-                    deviceId: req.body.deviceId,
-                    createdTime: req.body.createdTime,
-                    type: "unknown",
-                    points: [{
-                        latitude: req.body.latitude,
-                        longitude: req.body.longitude,
-                        speed: req.body.speed,
-                        uv: req.body.uv,
-                        timeStamp: req.body.timeStamp
-                    }]
-                });
-                
-                newActivity.save(function(err, use){
-                    if(err) {
-                        res.status(400).send(err);
-                    }
-                    else {
-                        console.log(use._id);
-                        console.log(use.createdTime);
-                    }  
-                });
+    if(!req.body.uvthreshold){
+        Activity.findOne({deviceId: req.body.deviceId, createdTime: req.body.startTime}, function(err, activity){
+            console.log(req.body.uvthreshold);
+            if (err) {
+                res.status(400).send(err);
             }
             else{
-                var tempPoint = {
-                    speed: req.body.speed,
-                    uv: req.body.uv,
-                    latitude: req.body.latitude,
-                    longitude: req.body.longitude,
-                    timeStamp: req.body.timeStamp
-                };
+                if(!activity) {
+                    var newActivity = new Activity({
+                        deviceId: req.body.deviceId,
+                        createdTime: req.body.createdTime,
+                        type: "unknown",
+                        points: [{
+                            latitude: req.body.latitude,
+                            longitude: req.body.longitude,
+                            speed: req.body.speed,
+                            uv: req.body.uv,
+                            timeStamp: req.body.timeStamp
+                        }]
+                    });
 
-                Activity.update(
-                    { _id: activities._id},
-                    { $push: {points: tempPoint }},
-                    done
-                );
-            }
-            res.status(200).json({
-                success: true,
-                timestamp: req.body.timeStamp
-            });
-        }        
-        
-    });
+                    newActivity.save(function(err, use){
+                        if(err) {
+                            res.status(400).send(err);
+                        }
+                        else {
+                            console.log(use._id);
+                            console.log(use.createdTime);
+                        }  
+                    });
+                }
+                else{
+                    var tempPoint = {
+                        speed: req.body.speed,
+                        uv: req.body.uv,
+                        latitude: req.body.latitude,
+                        longitude: req.body.longitude,
+                        timeStamp: req.body.timeStamp
+                    };
+
+                    Activity.update(
+                        { _id: activities._id},
+                        { $push: {points: tempPoint }},
+                        done
+                    );
+                }
+                res.status(200).json({
+                    success: true,
+                    timestamp: req.body.timeStamp
+                });
+            }        
+
+        });
+    }
 });
 
 router.get('/:devid', function(req, res, next) {
