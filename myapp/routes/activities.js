@@ -11,6 +11,37 @@ var jwtAdvanced = require("jsonwebtoken");
 var secret = fs.readFileSync(__dirname + '/../jwtkey').toString();
 
 //url: /activites/
+router.get("/" , function(req, res) {
+    // Check for authentication token in x-auth header
+    if (!req.headers["x-auth"]) {
+        return res.status(401).json({success: false, message: "No authentication token"});
+    }
+    var authToken = req.headers["x-auth"];
+    try {
+        var decodedToken = jwt.decode(authToken, secret);
+        var response = [];
+
+        Activity.find({}, function(err, activities){
+            console.log("Activities: ");
+            console.log(activities);
+            if(err){
+                return res.status(400).json({success: false, message: "No activities found."});
+            }
+            else{
+                for(el of activities){
+                    response.push(el);
+                }
+                console.log("Response: ");
+                console.log(response);
+                return res.status(200).json(response);
+
+            } 
+        });
+    }       
+    catch (ex) {
+        return res.status(401).json({success: false, message: "Invalid authentication token."});
+    }
+});
 
 //url: /activites/account
 router.get("/account" , function(req, res) {
@@ -46,9 +77,9 @@ router.get("/account" , function(req, res) {
 
                     } 
                 });
-                
-              
-                           
+
+
+
             }       
         });
     }

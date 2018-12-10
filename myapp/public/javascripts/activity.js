@@ -13,7 +13,6 @@ function initMap() {
         headers: { 'x-auth': window.localStorage.getItem("authToken") },
         responseType: 'json',
         success: (data) => {  
-
             //initialize map
             var uv = 0;
             var map = new google.maps.Map(document.getElementById('map'), {

@@ -145,7 +145,7 @@ router.post('/signin', function(req, res, next) {
                 else if(valid) {
                     var token = jwt.encode({
                         email: req.body.email,
-                        name: req.body.name 
+                        name: req.body.name,
                     }, secret);
                     res.status(201).json({success : true, token : token});         
                 }
