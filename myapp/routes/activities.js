@@ -130,7 +130,17 @@ router.get("/:id" , function(req, res) {
     }
 });
 
+router.put("/type" , function(req, res) {
 
+    Activity.update({ _id: req.body.id}, { $set: { type: req.body.type }}, function (err, data){
+        if(err){
+            return res.status(400).json({success: false, message: "Couldn't find valid device"});
+        }
+        else{
+            return res.status(200).json({success : true}); 
+        }
+    });
+});
 
 
 

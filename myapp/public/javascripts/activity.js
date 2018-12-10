@@ -68,7 +68,7 @@ function initMap() {
 
             var time = Math.ceil((end-begin) / msMinute);
             var sumCal = 0;
-            
+
             // Speed determines the activity type (Guessed these values) 
             if (data.type === "walking"){
                 console.log("calculating walking calories");
@@ -89,10 +89,14 @@ function initMap() {
                 console.log("error with calories");
             }
 
+            $("#activityType").val(data.type);
+            $('#activityType').material_select();
+            //$("#type").html(data.type);
+
             $("#date").html(created);
             $("#duration").html(`Hours: ${hours}, Minutes: ${minutes}, Seconds: ${seconds}`);
             $("#uv").html(uv);
-            $("#type").html(data.type);
+
             $("#calories").html(sumCal);
         },
         error: (err) => {console.log(err)}
@@ -102,16 +106,29 @@ function parseISOString(s) {
     var b = s.split(/\D+/);
     return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
 }
-function activityInfoSuccess(data){
-
-
-    console.log("data start");
-    console.log(data);
-    console.log("data end");
-}
 
 function setId(){
-    window.localStorage.setItem("deviceId", "5c0dc1823d4b1357979146b0");
+    window.localStorage.setItem("deviceId", "5c0db735de8cadbcffc3094f");
+}
+function handleSelect(){
+    var selectedVal = $(this).val();
+    $.ajax({
+        url: '/activities/type',
+        type: 'PUT',
+        headers: { 'x-auth': window.localStorage.getItem("authToken") },
+        data: {
+            id: window.localStorage.getItem("deviceId"),
+            type: selectedVal
+        },
+        responseType: 'json',
+        success: (data) => {
+            initMap();
+            console.log(data);
+        },
+        error: (err) =>{
+            console.log(err);
+        }
+    });
 }
 
 
@@ -123,7 +140,9 @@ $(function() {
         window.location.replace("index.html");
     }
     else {
-        $("#setId").click(setId)
+        $("#activityType").change(handleSelect);
+        $("#setId").click(setId);
+
         //sendReqForAccountInfo();
     }
 
