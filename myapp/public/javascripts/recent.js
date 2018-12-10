@@ -33,7 +33,6 @@ function calculateData(){
 
                 let days = Math.floor((timeSince) / msDay);
 
-
                 if(days <= 7){
                     //total activity time
                     total += (end - begin);
@@ -50,10 +49,7 @@ function calculateData(){
                     var time = Math.ceil((end-begin) / msMinute);
                     console.log("time = " + time);
 
-                    var j = 0;
-
                     // Speed determines the activity type (Guessed these values) 
-
                     if (data.type === "walking"){
                         console.log("calculating walking calories");
                         var calWalk = 0.175 * (time) * 4.5 * 60

@@ -13,7 +13,7 @@ function initMap() {
         headers: { 'x-auth': window.localStorage.getItem("authToken") },
         responseType: 'json',
         success: (data) => {  
-            
+
             //initialize map
             var uv = 0;
             var map = new google.maps.Map(document.getElementById('map'), {
@@ -32,6 +32,7 @@ function initMap() {
 
                 markers.push(new google.maps.Marker({position: uluru, map: map}));  
                 flightPlanCoordinates.push(uluru);
+
                 uv += parseFloat(point.uv);
             }
 
@@ -58,22 +59,42 @@ function initMap() {
             var msDay = 60*60*24*1000;
             var msSecond = 1000;
             var msHour = 60*60*1000;
-            
+
             let hours = Math.floor((end - begin) % msDay / msHour);
             let minutes = Math.floor(((end - begin) % msDay) / msMinute);
             let seconds = Math.floor(((end - begin) % msDay) % msMinute / msSecond);
+
+            // Total Calories Burned
+            //Each activity needs to be identified as either walking, biking, or running
+
+            var time = Math.ceil((end-begin) / msMinute);
+            var sumCal = 0;
             
-//            console.log(Math.floor((end - begin) / msDay) + ' full days between');
-//            console.log(Math.floor(((end - begin) % msDay) / msMinute) + ' full minutes between');
-//            console.log(Math.floor(((end - begin) % msDay) % msMinute / msSecond) + ' full seconds between');
-//            console.log("duration: " + duration);
-//            console.log("uv: " + uv);
+            // Speed determines the activity type (Guessed these values) 
+            if (data.type === "walking"){
+                console.log("calculating walking calories");
+                var calWalk = 0.175 * (time) * 4.5 * 60
+                sumCal += calWalk;
+            }
+            else if (data.type === "running") {
+                console.log("calculating running calories");
+                var calRun = 0.175 * (time) * 8 * 60
+                sumCal += calRun;
+            }
+            else if (data.type === "biking") {
+                console.log("calculating biking calories");
+                var calBike = 0.175 * (time) * 4 * 60
+                sumCal += calBike;
+            }
+            else{
+                console.log("error with calories");
+            }
 
             $("#date").html(created);
-            $("#duration").html(`${hours}:${minutes}:${seconds}`);
+            $("#duration").html(`Hours: ${hours}, Minutes: ${minutes}, Seconds: ${seconds}`);
             $("#uv").html(uv);
-            $("#type").html("Biking");
-            $("#calories").html("24");
+            $("#type").html(data.type);
+            $("#calories").html(sumCal);
         },
         error: (err) => {console.log(err)}
     });
@@ -91,7 +112,7 @@ function activityInfoSuccess(data){
 }
 
 function setId(){
-    window.localStorage.setItem("deviceId", "5c0db720de8cadbcffc3094e");
+    window.localStorage.setItem("deviceId", "5c0dc1823d4b1357979146b0");
 }
 
 
