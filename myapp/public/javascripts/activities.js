@@ -77,8 +77,6 @@ function accountInfoSuccess() {
                 else{
                     console.log("error with calories");
                 }
-            
-                `${("0" + hours).slice(-2)}:${("0" + minutes).slice(-2)}:${("0" + seconds).slice(-2)}`
                 
             $("#addActivity").before("<li class='collection-item' data-id='" + data._id + "'>Date: " + formatDate(created) + " Total Activity Duration: " +
                                      `${("0" + hours).slice(-2)}:${("0" + minutes).slice(-2)}:${("0" + seconds).slice(-2)}` + ", Total Calories Burned: " + sumCal + ", Total UV Exposure: " + sumUV +
