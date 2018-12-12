@@ -40,6 +40,10 @@ a {
     display: none;
 }
 
+.error{
+    display: none;
+}
+
 
 .element{
     display:inline-block;

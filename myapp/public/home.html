@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Holz - Home</title>
+        <title>UVFit - Home</title>
 
         <!-- Import Google Icon Font -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -14,9 +14,8 @@
         <link href="stylesheets/style.css" rel="stylesheet">
         <script src="javascripts/status.js" defer></script>
         <script src="javascripts/signout.js" defer></script>
-        <script src="javascripts/moment.js" defer></script>
-        <script src="javascripts/moment-timezone-with-data-2012-2022.js" defer></script>
-    
+
+
 
 
         <!-- Let browser know website is optimized for mobile -->
@@ -75,14 +74,20 @@
                     </li>
                     <li class="collection-item" id="changePasswordForm">
                         <label for="password">New Password:</label>
-                        <input type="text" id="password" name="password" col="30">
+                        <input type="password" id="password" name="password" col="30">
                         <label for="passwordConfirm">Confirm Password:</label>
-                        <input type="text" id="passwordConfirm" name="passwordConfirm" col="30">
+                        <input type="password" id="passwordConfirm" name="passwordConfirm" col="30">
                         <button id="savePassword" class="waves-effect waves-light btn">Save</button> 
                         <button id="cancelPassword" class="waves-effect waves-light btn">Cancel</button> 
                     </li>
                     <li class="collection-item" id="changePasswordControl"><a href="#!" id="changePassword">Change Password</a></li>
                 </ul>
+                
+                <div class="card-panel red-text error" id="formErrors"></div>
+                <div class="card-panel blue-text" id="ServerResponse" style="display: none"></div>
+                <div class='red-text text-darken-2' id="error"></div>
+
+
 
                 <ul class="collection with-header" data-list="devices" id="devices">
                     <li class="collection-header">
@@ -96,50 +101,6 @@
                     </li>
                     <li class="collection-item" id="addDeviceControl"><a href="#!" id="addDevice">Replace Device</a></li>
                 </ul>
-                <div class='red-text text-darken-2' id="error"></div>
-                
-
-
-                <ul class="collection with-header">
-                    <li class="collection-header">
-                        <h5>Weather Forecast</h5>
-                    </li>
-                    <li class="collection-item">
-                        <div class="row">
-                            <div class="col s3" id="day1">Monday</div>
-                            <div class="col s3" id="icon1"></div>
-                            <div class="col s6">
-                                <span>Low: </span><span id="low1"></span>
-                                <span>High: </span><span id="high1"></span>
-                                <span>UV: </span><span id="uv1"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="collection-item">
-                        <div class="row">
-                            <div class="col s3" id="day2">Monday</div>
-                            <div class="col s3" id="icon2">Icon</div>
-                            <div class="col s6">
-                                <span>Low: </span><span id="low2"></span>
-                                <span>High: </span><span id="high2"></span>
-                                <span>UV: </span><span id="uv2"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="collection-item">
-                        <div class="row">
-                            <div class="col s3" id="day3">Monday</div>
-                            <div class="col s3" id="icon3">Icon</div>
-                            <div class="col s6">
-                                <span>Low: </span><span id="low3"></span>
-                                <span>High: </span><span id="high3"></span>
-                               <span>UV: </span> <span id="uv3"></span>
-                            </div>
-                        </div>
-                    </li>
-
-                </ul>
-
 
 
             </div>
