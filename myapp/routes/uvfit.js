@@ -22,7 +22,7 @@ router.post('', function(req, res, next) {
         }
         else if(device){
             if(!req.body.uvthreshold){
-                console.log("*********************" + req.body.startTime + "****************************");
+                
                 
                 Activity.findOne({deviceId: req.body.deviceId, createdTime: new Date(req.body.startTime) }, function(err, activity){
                     if (err) {
@@ -42,6 +42,7 @@ router.post('', function(req, res, next) {
                                 { _id: activity._id},
                                 { $push: {points: tempPoint }}
                             );
+                            console.log("*********************Save Created****************************");
                         }
                         else{
                             var newActivity = new Activity({
