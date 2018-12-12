@@ -22,7 +22,7 @@ router.post('', function(req, res, next) {
         }
         else if(device){
             if(!req.body.uvthreshold){
-                console.log("*********************" + req.body.startTime + "****************************");
+                console.log("*********************" + req.body.createdTime + "****************************");
                 
                 Activity.findOne({deviceId: req.body.deviceId, createdTime: req.body.startTime }, function(err, activity){
                     if (err) {
