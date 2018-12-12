@@ -15,8 +15,8 @@ const transporter = nodemailer.createTransport({
     //    port: 587,
     //    secure: false, // true for 465, false for other ports
     auth: {
-        user: "postmaster@sandboxb34544df91204f348e3a514627e8ddf8.mailgun.org", // generated ethereal user
-        pass: "e1913348008272931c4746d38fed6730-52cbfb43-7d99c72e" // generated ethereal password
+        user: "postmaster@sandbox04e30ff7017a4267919c85aca938856c.mailgun.org", // generated ethereal user
+        pass: "04062be2671cb74111850a56ad2ec321-b3780ee5-cc9f5905" // generated ethereal password
     }
 });
 
