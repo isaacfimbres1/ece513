@@ -132,8 +132,8 @@ function initMap() {
             $('#activityType').material_select();
             //$("#type").html(data.type);
 
-            $("#date").html(created);
-            $("#duration").html(`Hours: ${hours}, Minutes: ${minutes}, Seconds: ${seconds}`);
+            $("#date").html(formatDate(created));
+            $("#duration").html(`${("0" + hours).slice(-2)}:${("0" + minutes).slice(-2)}:${("0" + seconds).slice(-2)}`);
             $("#uv").html(uv);
 
             $("#calories").html(sumCal);
@@ -148,6 +148,20 @@ function parseISOString(s) {
 
 function setId(){
     window.localStorage.setItem("deviceId", "5c0e08026443a717d23873b1");
+}
+function formatDate(date) {
+  var monthNames = [
+    "January", "February", "March",
+    "April", "May", "June", "July",
+    "August", "September", "October",
+    "November", "December"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+
+  return day + ' ' + monthNames[monthIndex] + ' ' + year;
 }
 function handleSelect(){
     var selectedVal = $(this).val();
@@ -180,7 +194,7 @@ $(function() {
     }
     else {
         $("#activityType").change(handleSelect);
-        $("#setId").click(setId);
+        //$("#setId").click(setId);
 
         //sendReqForAccountInfo();
     }
