@@ -28,7 +28,22 @@ router.post('', function(req, res, next) {
                         res.status(400).send(err);
                     }
                     else{
-                        if(!activity) {
+                        if(activity) {
+                            var tempPoint = {
+                                speed: req.body.speed,
+                                uv: req.body.uv,
+                                latitude: req.body.latitude,
+                                longitude: req.body.longitude,
+                                timeStamp: req.body.timeStamp
+                            };
+
+                            Activity.update(
+                                { _id: activities._id},
+                                { $push: {points: tempPoint }},
+                                done
+                            );
+                        }
+                        else{
                             var newActivity = new Activity({
                                 deviceId: req.body.deviceId,
                                 createdTime: req.body.createdTime,
@@ -51,21 +66,6 @@ router.post('', function(req, res, next) {
                                     console.log(use.createdTime);
                                 }  
                             });
-                        }
-                        else{
-                            var tempPoint = {
-                                speed: req.body.speed,
-                                uv: req.body.uv,
-                                latitude: req.body.latitude,
-                                longitude: req.body.longitude,
-                                timeStamp: req.body.timeStamp
-                            };
-
-                            Activity.update(
-                                { _id: activities._id},
-                                { $push: {points: tempPoint }},
-                                done
-                            );
                         }
                         res.status(200).json({
                             success: true,
