@@ -41,8 +41,9 @@ function calculateData(){
                         console.log("Distance from current: ");
                         let distance = Math.sqrt(Math.pow((longitude - data.points[0].longitude),2) + Math.pow((latitude - data.points[0].latitude),2));
                         console.log(distance);
-
-                        if(distance < 0.1){
+                        
+                        //distance is approximately radius of U of A so we can test at home
+                        if(distance < 0.005){
                             //Total Duration Activity
                             let begin = parseISOString(data.points[0].timeStamp);
                             console.log("begin: " + begin);
