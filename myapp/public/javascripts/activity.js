@@ -70,7 +70,45 @@ function initMap() {
             var sumCal = 0;
 
             // Speed determines the activity type (Guessed these values) 
-            if (data.type === "walking"){
+            if(data.type == "unknown"){
+                let sum = 0;
+                for(point of data.points){
+                    sum += point.speed;
+                }
+                
+                sum = sum / data.points.size();
+                
+                var activityType = "unknown";
+                
+                if(sum < 5){
+                    activityType = "walking";
+                }
+                else if(sum >= 5 || sum <= 15){
+                    activityType = "running";
+                }
+                else if(sum > 15){
+                    activityType = "biking";
+                }
+                
+                
+                 $.ajax({
+                    url: '/activities/type',
+                    type: 'PUT',
+                    headers: { 'x-auth': window.localStorage.getItem("authToken") },
+                    responseType: 'json',
+                    data: {'id': window.localStorage.getItem("deviceId"),
+                           'type': activityType,
+                          },
+                    error: (err) => {
+                        console.log(err);
+                    },
+                    success: (data) => {
+                        initMap();
+                    });              
+                
+                
+            }
+            else if (data.type === "walking"){
                 console.log("calculating walking calories");
                 var calWalk = 0.175 * (time) * 4.5 * 60
                 sumCal += calWalk;
