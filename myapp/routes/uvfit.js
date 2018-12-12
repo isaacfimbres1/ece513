@@ -40,8 +40,7 @@ router.post('', function(req, res, next) {
 
                             Activity.update(
                                 { _id: activity._id},
-                                { $push: {points: tempPoint }},
-                                done
+                                { $push: {points: tempPoint }}
                             );
                         }
                         else{
