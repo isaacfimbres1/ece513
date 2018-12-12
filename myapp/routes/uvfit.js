@@ -21,9 +21,8 @@ router.post('', function(req, res, next) {
             res.status(401).send(err);
         }
         else if(device){
-            console.log(req.body);
             if(!req.body.uvthreshold){
-                Console.log("*********************" + req.body.startTime + "****************************");
+                console.log("*********************" + req.body.startTime + "****************************");
                 
                 Activity.findOne({deviceId: req.body.deviceId, createdTime: req.body.startTime }, function(err, activity){
                     if (err) {
