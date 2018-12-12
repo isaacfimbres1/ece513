@@ -76,7 +76,7 @@ function initMap() {
                     sum += point.speed;
                 }
                 
-                sum = sum / data.points.size();
+                sum = sum / data.points.length;
                 
                 var activityType = "unknown";
                 
@@ -147,7 +147,7 @@ function parseISOString(s) {
 }
 
 function setId(){
-    window.localStorage.setItem("deviceId", "5c0db735de8cadbcffc3094f");
+    window.localStorage.setItem("deviceId", "5c0e08026443a717d23873b1");
 }
 function handleSelect(){
     var selectedVal = $(this).val();
