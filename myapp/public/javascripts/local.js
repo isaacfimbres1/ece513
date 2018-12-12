@@ -41,7 +41,7 @@ function calculateData(){
                         console.log("Distance from current: ");
                         let distance = Math.sqrt(Math.pow((longitude - data.points[0].longitude),2) + Math.pow((latitude - data.points[0].latitude),2));
                         console.log(distance);
-                        
+
                         //distance is approximately radius of U of A so we can test at home
                         if(distance < 0.005){
                             //Total Duration Activity
@@ -58,7 +58,7 @@ function calculateData(){
 
                             if(days <= 7){
                                 ++size;
-                                
+
                                 //total activity time
                                 total += (end - begin);                                
 
@@ -96,7 +96,7 @@ function calculateData(){
                             }
                         }
                     });
-                    
+
                     //calculate averages
                     total = total / size;
                     sumUV = sumUV / size;
@@ -113,9 +113,10 @@ function calculateData(){
                     console.log("UVsum = " + sumUV);
                     console.log("Calsum = " + sumCal);     
 
-                    $("#score1").html(`${hours}:${minutes}:${seconds}`);
-                    $("#score2").html(sumCal);
-                    $("#score3").html(sumUV);
+                    $("#score1").html(`${("0" + hours).slice(-2)}:${("0" + minutes).slice(-2)}:${("0" + seconds).slice(-2)}`);
+                    $("#score2").html(sumCal.toFixed(2));
+                    $("#score3").html(sumUV.toFixed(2));
+                    $("#score4").html(size);
                 });
             }
         },
