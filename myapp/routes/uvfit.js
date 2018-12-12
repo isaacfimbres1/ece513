@@ -46,7 +46,7 @@ router.post('', function(req, res, next) {
                         else{
                             var newActivity = new Activity({
                                 deviceId: req.body.deviceId,
-                                createdTime: req.body.startTime,
+                                createdTime: new Date(req.body.startTime),
                                 type: "unknown",
                                 points: [{
                                     latitude: req.body.latitude,
