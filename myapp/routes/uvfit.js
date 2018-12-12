@@ -45,6 +45,7 @@ router.post('', function(req, res, next) {
                             console.log("*********************Save Created****************************");
                         }
                         else{
+                            console.log("*********************New Point Created****************************");
                             var newActivity = new Activity({
                                 deviceId: req.body.deviceId,
                                 createdTime: new Date(req.body.startTime),
