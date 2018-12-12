@@ -16,10 +16,10 @@ function initMap() {
             //initialize map
             var uv = 0;
             var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 14, 
+                zoom: 15, 
                 center: {
-                    lat: data.points[0].latitude, 
-                    lng: data.points[0].longitude
+                    lat: 32.231491, 
+                    lng: -110.951126
                 }
             });
             var markers = [];
