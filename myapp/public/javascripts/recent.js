@@ -83,7 +83,7 @@ function calculateData(){
             console.log("UVsum = " + sumUV);
             console.log("Calsum = " + sumCal);     
 
-            $("#score1").html(`${hours}:${minutes}:${seconds}`);
+            $("#score1").html(`${("0" + hours).slice(-2)}:${("0" + minutes).slice(-2)}:${("0" + seconds).slice(-2)}`);
             $("#score2").html(sumCal);
             $("#score3").html(sumUV);
 
