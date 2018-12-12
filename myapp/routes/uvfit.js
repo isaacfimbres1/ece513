@@ -24,7 +24,7 @@ router.post('', function(req, res, next) {
             if(!req.body.uvthreshold){
                 console.log("*********************" + req.body.startTime + "****************************");
                 
-                Activity.findOne({deviceId: req.body.deviceId, createdTime: req.body.startTime }, function(err, activity){
+                Activity.findOne({deviceId: req.body.deviceId, createdTime: new Date(req.body.startTime) }, function(err, activity){
                     if (err) {
                         res.status(400).send(err);
                     }
@@ -47,7 +47,7 @@ router.post('', function(req, res, next) {
                         else{
                             var newActivity = new Activity({
                                 deviceId: req.body.deviceId,
-                                createdTime: req.body.startedTime,
+                                createdTime: req.body.startTime,
                                 type: "unknown",
                                 points: [{
                                     latitude: req.body.latitude,
