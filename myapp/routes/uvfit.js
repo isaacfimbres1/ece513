@@ -48,10 +48,6 @@ router.post('', function(req, res, next) {
                                     });
                                 }});
 
-                            Activity.update(
-                                { _id: activity._id},
-                                { $push: {points: tempPoint }}
-                            );
                             console.log("*********************Save Created****************************");
                         }
                         else{
