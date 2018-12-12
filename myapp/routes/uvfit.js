@@ -37,6 +37,15 @@ router.post('', function(req, res, next) {
                                 longitude: req.body.longitude,
                                 timeStamp: req.body.timeStamp
                             };
+                            
+                            activity.points.push(tempPoint);
+                            activity.save(function(err, activity) {
+                                if (err) {
+                                    res.status(400).send(err);
+                                } else {
+                                    res.status(200).send(activity);
+                                    
+                                }});
 
                             Activity.update(
                                 { _id: activity._id},
