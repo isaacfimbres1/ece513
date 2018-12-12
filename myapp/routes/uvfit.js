@@ -152,11 +152,7 @@ router.post('/config', function(req, res, next) {
         }
         
         
-    });
-    
-    
-    
-    
+    }); 
 });
         
 
