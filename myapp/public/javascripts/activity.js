@@ -104,7 +104,8 @@ function initMap() {
                     },
                     success: (data) => {
                         initMap();
-                    });              
+                    }
+                 });              
                 
                 
             }
