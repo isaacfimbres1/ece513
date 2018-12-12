@@ -51,7 +51,8 @@ a {
 
 .score {
     clear: both;
-    width: 100px;
+    margin: 2px;
+    width: 60%;
     height: 60px;
     background-color: lightblue;
     border: 1px solid darkblue;

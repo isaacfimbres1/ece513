@@ -72,30 +72,32 @@ function calculateData(){
                         console.log("error with calories");
                     }
                 }
-
-
-
-                //calculate averages
-                total = total / size;
-                sumUV = sumUV / size;
-                sumCal = sumCal / size;
-
-                let hours = Math.floor((total) % msDay / msHour);
-                let minutes = Math.floor((total % msDay) / msMinute);
-                let seconds = Math.floor((total % msDay) % msMinute / msSecond);
-
-
-                console.log("Total time: ");
-                console.log(total);
-
-                console.log("UVsum = " + sumUV);
-                console.log("Calsum = " + sumCal);     
-
-                $("#score1").html(`${hours}:${minutes}:${seconds}`);
-                $("#score2").html(sumCal);
-                $("#score3").html(sumUV);
             });
 
+
+            //calculate averages
+            total = total / size;
+            sumUV = sumUV / size;
+            sumCal = sumCal / size;
+
+
+            let hours = Math.floor((total) % msDay / msHour);
+            let minutes = Math.floor((total % msDay) / msMinute);
+            let seconds = Math.floor((total % msDay) % msMinute / msSecond);
+
+
+            console.log("Total time: ");
+            console.log(total);
+            console.log("Size: ");
+            console.log(size);
+
+            console.log("UVsum = " + sumUV);
+            console.log("Calsum = " + sumCal);     
+
+            $("#score1").html(`${("0" + hours).slice(-2)}:${("0" + minutes).slice(-2)}:${("0" + seconds).slice(-2)}`);
+            $("#score2").html(sumCal.toFixed(2));
+            $("#score3").html(sumUV.toFixed(2));
+            $("#score4").html(size);
         },
         error: (err) => {console.log(err)}
     });
