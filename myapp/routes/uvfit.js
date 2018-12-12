@@ -23,7 +23,7 @@ router.post('', function(req, res, next) {
         else if(device){
             console.log(req.body);
             if(!req.body.uvthreshold){
-                Activity.findOne({deviceId: req.body.deviceId, createdTime: parseISOString(req.body.startTime) }, function(err, activity){
+                Activity.findOne({deviceId: req.body.deviceId, createdTime: parseISOString(req.body.createdTime) }, function(err, activity){
                     if (err) {
                         res.status(400).send(err);
                     }
