@@ -43,9 +43,9 @@ router.post('', function(req, res, next) {
                                 if (err) {
                                     res.status(400).send(err);
                                 } else {
-                                    res.status(200).json({
+                                    res.status(200).send({
                                         success: true
-                                    });   
+                                    });
                                 }});
 
                             Activity.update(
